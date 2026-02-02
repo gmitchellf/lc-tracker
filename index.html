@@ -946,41 +946,44 @@
                 const formatGameLength = (raw) => {
                     if (raw === null || raw === undefined || raw === '') return '';
 
-                    const formatFromHMS = (hours, minutes) => {
+                    const formatFromHMS = (hours, minutes, seconds) => {
                         if (hours > 0) {
-                            return `${hours}:${String(minutes).padStart(2, '0')}`;
+                            return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
                         }
-                        return `${minutes}`;
+                        return `${minutes}:${String(seconds).padStart(2, '0')}`;
                     };
 
                     if (typeof raw === 'number' && !Number.isNaN(raw)) {
                         const totalSeconds = Math.round(raw * 86400);
                         const hours = Math.floor(totalSeconds / 3600);
                         const minutes = Math.floor((totalSeconds % 3600) / 60);
-                        return formatFromHMS(hours, minutes);
+                        const seconds = totalSeconds % 60;
+                        return formatFromHMS(hours, minutes, seconds);
                     }
 
                     if (raw instanceof Date && !isNaN(raw)) {
                         const hours = raw.getUTCHours();
                         const minutes = raw.getUTCMinutes();
-                        return formatFromHMS(hours, minutes);
+                        const seconds = raw.getUTCSeconds();
+                        return formatFromHMS(hours, minutes, seconds);
                     }
 
                     const str = String(raw).trim();
                     if (!str) return '';
-                    if (/^\d{1,2}:\d{2}(:\d{2})?$/.test(str)) {
-                        const parts = str.split(':').map(part => Number(part));
-                        if (parts.length === 3) {
-                            return formatFromHMS(parts[0], parts[1]);
-                        }
-                        return formatFromHMS(0, parts[0]);
+                    const timeMatch = str.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?$/);
+                    if (timeMatch) {
+                        const hours = Number(timeMatch[1] || 0);
+                        const minutes = Number(timeMatch[2] || 0);
+                        const seconds = Number(timeMatch[3] || 0);
+                        return formatFromHMS(hours, minutes, seconds);
                     }
 
                     const dateCandidate = new Date(str);
                     if (!isNaN(dateCandidate)) {
                         const hours = dateCandidate.getUTCHours();
                         const minutes = dateCandidate.getUTCMinutes();
-                        return formatFromHMS(hours, minutes);
+                        const seconds = dateCandidate.getUTCSeconds();
+                        return formatFromHMS(hours, minutes, seconds);
                     }
 
                     return str;
