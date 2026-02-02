@@ -1016,18 +1016,18 @@
                 // Map games
                 if (Array.isArray(data.games) && data.games.length) {
                     window.games = data.games.map(g => ({
-                        date: g.date || g.Date || '',
-                        type: g.type || g.Type || '',
-                        opponent: g.opponent || g.Opponent || '',
-                        comp_type: g.comp_type || g.Comp_Type || '',
-                        picks: g.picks || g.Picks || '',
-                        result: g.result || g.Result || '',
-                        gold_10: Number(g.gold_10 || g.gold10 || 0),
-                        gold_20: Number(g.gold_20 || g.gold20 || 0),
-                        gold_30: Number(g.gold_30 || g.gold30 || 0),
-                        gold_40: Number(g.gold_40 || g.gold40 || 0),
-                        gold_50: Number(g.gold_50 || g.gold50 || 0),
-                        length: g.length || g.Length || ''
+                        date: g.Date || g.date || '',
+                        type: g.Type || g.type || '',
+                        opponent: g.Opponent || g.opponent || '',
+                        comp_type: g['Comp Type'] || g.comp_type || g.Comp_Type || '',
+                        picks: g['Team Picks'] || g.picks || g.Picks || '',
+                        result: g['Result (Win/Loss)'] || g.result || g.Result || '',
+                        gold_10: Number(g['Gold Diff @ 10'] || g.gold_10 || g.gold10 || 0),
+                        gold_20: Number(g['Gold Diff @ 20'] || g.gold_20 || g.gold20 || 0),
+                        gold_30: Number(g['Gold Diff @ 30'] || g.gold_30 || g.gold30 || 0),
+                        gold_40: Number(g['Gold Diff @ 40'] || g.gold_40 || g.gold40 || 0),
+                        gold_50: Number(g['Gold Diff @ 50'] || g.gold_50 || g.gold50 || 0),
+                        length: g['Game Length'] || g.length || g.Length || ''
                     }));
                     populateGamesTable();
                     updateChartValues();
