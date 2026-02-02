@@ -980,6 +980,7 @@
         // Populate games table
         function populateGamesTable() {
             const tbody = document.getElementById('gamesTableBody');
+            tbody.innerHTML = '';
             
             games.forEach(game => {
                 const row = document.createElement('tr');
@@ -1002,11 +1003,10 @@
             });
         }
 
-        // Google Sheets web app URL (paste your deployed Apps Script Web App URL here)
-        // Example: const GOOGLE_SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/XXXX/exec';
-        const GOOGLE_SHEETS_WEBAPP_URL = '';
+        // Google Sheets web app URL — paste your deployed Apps Script Web App URL here
+        const GOOGLE_SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwD3212TAtNZiXwOXEqOmJ6lnCZUD_WELUw99PXo1nT7L7bzQpSOGXp7PMbj7_QPMwmNg/exec';
 
-        // Fetch data from Google Sheets Apps Script web app and map into local structures
+        // Fetch data from Google Sheets Apps Script web app
         async function fetchSheetData(webAppUrl) {
             try {
                 const res = await fetch(webAppUrl);
@@ -1035,7 +1035,7 @@
 
                 // Map players
                 if (Array.isArray(data.players) && data.players.length) {
-                    window.playerData = window.playerData || {};
+                    window.playerData = {};
                     data.players.forEach(p => {
                         const key = (p.key || p.id || p.handle || p.name || p.Name || '').toString().toLowerCase().replace(/\s+/g,'');
                         if (!key) return;
@@ -1054,7 +1054,7 @@
 
                 // Map champions
                 if (Array.isArray(data.champions) && data.champions.length) {
-                    window.championData = window.championData || {};
+                    window.championData = {};
                     data.champions.forEach(c => {
                         const name = (c.Champion || c.champ || c.Name || c.name || '').toString();
                         if (!name) return;
@@ -1065,7 +1065,6 @@
                             notes: c.Notes || c.notes || ''
                         };
                     });
-                    // Refresh draft UI if available
                     typeof updateDraftDisplay === 'function' && updateDraftDisplay();
                 }
 
@@ -1081,11 +1080,11 @@
             updateChartValues();
             createLineChart();
 
-            // If user has pasted the deployed web app URL above, fetch sheet data
+            // If user has pasted the deployed web app URL, fetch sheet data
             if (GOOGLE_SHEETS_WEBAPP_URL) {
                 fetchSheetData(GOOGLE_SHEETS_WEBAPP_URL);
             }
-
+            
             // Animate chart bars on load
             setTimeout(() => {
                 document.querySelectorAll('.bar-fill').forEach(bar => {
