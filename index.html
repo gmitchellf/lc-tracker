@@ -943,6 +943,49 @@
                 }
 
                 // Map games
+                const formatGameLength = (raw) => {
+                    if (raw === null || raw === undefined || raw === '') return '';
+
+                    const formatFromHMS = (hours, minutes) => {
+                        if (hours > 0) {
+                            return `${hours}:${String(minutes).padStart(2, '0')}`;
+                        }
+                        return `${minutes}`;
+                    };
+
+                    if (typeof raw === 'number' && !Number.isNaN(raw)) {
+                        const totalSeconds = Math.round(raw * 86400);
+                        const hours = Math.floor(totalSeconds / 3600);
+                        const minutes = Math.floor((totalSeconds % 3600) / 60);
+                        return formatFromHMS(hours, minutes);
+                    }
+
+                    if (raw instanceof Date && !isNaN(raw)) {
+                        const hours = raw.getUTCHours();
+                        const minutes = raw.getUTCMinutes();
+                        return formatFromHMS(hours, minutes);
+                    }
+
+                    const str = String(raw).trim();
+                    if (!str) return '';
+                    if (/^\d{1,2}:\d{2}(:\d{2})?$/.test(str)) {
+                        const parts = str.split(':').map(part => Number(part));
+                        if (parts.length === 3) {
+                            return formatFromHMS(parts[0], parts[1]);
+                        }
+                        return formatFromHMS(0, parts[0]);
+                    }
+
+                    const dateCandidate = new Date(str);
+                    if (!isNaN(dateCandidate)) {
+                        const hours = dateCandidate.getUTCHours();
+                        const minutes = dateCandidate.getUTCMinutes();
+                        return formatFromHMS(hours, minutes);
+                    }
+
+                    return str;
+                };
+
                 if (Array.isArray(data.games) && data.games.length) {
                     window.games = data.games
                         .filter(g => g.Date || g.date) // Only include rows with dates
@@ -969,7 +1012,7 @@
                                 gold_30: Number(g['Gold Diff @ 30'] || g.gold_30 || g.gold30 || 0),
                                 gold_40: Number(g['Gold Diff @ 40'] || g.gold_40 || g.gold40 || 0),
                                 gold_50: Number(g['Gold Diff @ 50'] || g.gold_50 || g.gold50 || 0),
-                                length: g['Game Length'] || g.length || g.Length || ''
+                                length: formatGameLength(g['Game Length'] || g.length || g.Length || '')
                             };
                         });
                     console.log('Mapped games:', window.games);
