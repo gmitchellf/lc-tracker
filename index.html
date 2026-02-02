@@ -31,28 +31,36 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-label">Games Played</div>
-                    <div class="stat-value">14</div>
+                    <div class="stat-value">—</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Wins</div>
-                    <div class="stat-value win-rate">10</div>
+                    <div class="stat-value win-rate">—</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Win Rate</div>
-                    <div class="stat-value win-rate">71.4%</div>
+                    <div class="stat-value win-rate">—</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Losses</div>
-                    <div class="stat-value" style="color: var(--loss-color);">4</div>
+                    <div class="stat-value" style="color: var(--loss-color);">—</div>
                 </div>
             </div>
 
             <div class="gold-diff-chart">
                 <h2 class="chart-title">Average Gold Difference @ Time</h2>
-                <div class="line-chart-container">
-                    <canvas id="goldDiffLineChart"></canvas>
+                
+                <!-- Chart loading state -->
+                <div id="chart-loading" class="chart-loading">
+                    <div class="draft-spinner"></div>
+                    <p>Loading game statistics...</p>
                 </div>
-                <div class="chart-bars">
+                
+                <div id="chart-content" style="display: none;">
+                    <div class="line-chart-container">
+                        <canvas id="goldDiffLineChart"></canvas>
+                    </div>
+                    <div class="chart-bars">
                     <div class="chart-bar">
                         <div class="bar-fill" style="height: 0%;" data-height="10"></div>
                         <div class="bar-label">@10</div>
@@ -78,6 +86,7 @@
                         <div class="bar-label">@50</div>
                         <div class="bar-value">—</div>
                     </div>
+                </div>
                 </div>
             </div>
         </section>
@@ -530,6 +539,22 @@
         // Game data - will be populated from Google Sheets
         let games = [];
 
+        // Update overview stats from games data
+        function updateOverviewStats() {
+            const gamesList = Array.isArray(window.games) ? window.games : [];
+            const gamesPlayed = gamesList.length;
+            const wins = gamesList.filter(g => (g.result || '').toLowerCase().includes('win')).length;
+            const losses = gamesPlayed - wins;
+            const winRate = gamesPlayed > 0 ? ((wins / gamesPlayed) * 100).toFixed(1) : '0.0';
+
+            // Update stat cards
+            const statCards = document.querySelectorAll('.stat-card');
+            if (statCards[0]) statCards[0].querySelector('.stat-value').textContent = gamesPlayed;
+            if (statCards[1]) statCards[1].querySelector('.stat-value').textContent = wins;
+            if (statCards[2]) statCards[2].querySelector('.stat-value').textContent = winRate + '%';
+            if (statCards[3]) statCards[3].querySelector('.stat-value').textContent = losses;
+        }
+
         // Calculate averages for gold at different timestamps
         function calculateGoldAverages() {
             const timestamps = ['gold_10', 'gold_20', 'gold_30', 'gold_40', 'gold_50'];
@@ -893,9 +918,14 @@
                             };
                         });
                     console.log('Mapped games:', window.games);
+                    updateOverviewStats();
                     populateGamesTable();
                     updateChartValues();
                     createLineChart(); // Recreate line chart with new data
+                    
+                    // Hide chart loading and show content
+                    document.getElementById('chart-loading').style.display = 'none';
+                    document.getElementById('chart-content').style.display = 'block';
                 }
 
                 // Map players
