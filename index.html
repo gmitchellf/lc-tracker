@@ -839,10 +839,7 @@
             const gamesList = Array.isArray(window.games) ? window.games : (Array.isArray(games) ? games : []);
             tbody.innerHTML = '';
 
-            if (!Array.isArray(gamesList)) {
-                console.error('gamesList is not an array:', gamesList);
-                return;
-            }
+
             if (gamesList.length === 0) {
                 // Show loading spinner
                 const loadingRow = document.createElement('tr');
@@ -867,7 +864,6 @@
                 `;
                 tbody.appendChild(row);
             });
-            console.log('Table populated with ' + gamesList.length + ' rows');
         }
 
         // Google Sheets web app URL — paste your deployed Apps Script Web App URL here
@@ -880,12 +876,7 @@
                 if (!res.ok) throw new Error('Fetch failed: ' + res.status);
                 const data = await res.json();
 
-                console.log('Raw sheet data:', data);
-                console.log('Games array:', data.games);
-                if (data.games && data.games.length > 0) {
-                    console.log('First game object:', data.games[0]);
-                    console.log('First game keys:', Object.keys(data.games[0]));
-                }
+
 
                 // Map games
                 if (Array.isArray(data.games) && data.games.length) {
@@ -917,7 +908,7 @@
                                 length: g['Game Length'] || g.length || g.Length || ''
                             };
                         });
-                    console.log('Mapped games:', window.games);
+
                     updateOverviewStats();
                     populateGamesTable();
                     updateChartValues();
@@ -948,14 +939,13 @@
                 }
 
                 // Map champions
-                console.log('Raw champions data:', data.champions);
+
                 if (Array.isArray(data.champions) && data.champions.length) {
                     window.championData = {};
                     data.champions.forEach(c => {
                         // Handle multiple possible column name variations
                         const name = (c.Champion || c.champion || c.champ || c.Name || c.name || c.Champions || '').toString().trim();
                         if (!name || name === '') {
-                            console.log('Skipping champion with no name:', c);
                             return;
                         }
                         
@@ -967,21 +957,14 @@
                             weaknesses: c.Weaknesses || c.weaknesses || c.Weakness || '',
                             notes: c.Notes || c.notes || ''
                         };
-                        console.log(`Mapped champion: ${name}`, window.championData[name]);
                     });
-                    console.log('Total champions mapped:', Object.keys(window.championData).length);
                     // Update local championData and populate dropdowns
                     championData = window.championData;
                     populateChampionDropdowns();
                     typeof updateDraftDisplay === 'function' && updateDraftDisplay();
-                } else {
-                    console.warn('Champions array is empty or not an array:', data.champions);
-                }
 
-                console.log('Sheet data loaded');
-            } catch (err) {
-                console.error('Error fetching sheet data:', err);
-            }
+
+
         }
 
         // Populate champion dropdowns
@@ -992,7 +975,20 @@
             const draftContainer = document.getElementById('draft-container');
             
             // Setup autocomplete for all champion inputs
-            document.querySelectorAll('.champion-select').forEach(input => {
+            const inputs = document.querySelectorAll('.champion-select');
+            
+            // Single document click listener for all dropdowns
+            document.addEventListener('click', (e) => {
+                inputs.forEach(input => {
+                    const wrapper = input.parentElement;
+                    const dropdown = wrapper.querySelector('.autocomplete-dropdown');
+                    if (!wrapper.contains(e.target)) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            }, { passive: true });
+            
+            inputs.forEach(input => {
                 const wrapper = input.parentElement;
                 const dropdown = wrapper.querySelector('.autocomplete-dropdown');
                 
@@ -1007,7 +1003,7 @@
                     
                     const matches = champNames
                         .filter(name => name.toLowerCase().includes(searchTerm))
-                        .slice(0, 10); // Show max 10 matches
+                        .slice(0, 10);
                     
                     if (matches.length > 0) {
                         dropdown.innerHTML = matches
@@ -1028,20 +1024,11 @@
                     }
                 });
                 
-                // Close dropdown when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (!wrapper.contains(e.target)) {
-                        dropdown.classList.remove('show');
-                    }
-                });
-                
-                // Close dropdown on blur (unless clicking dropdown)
-                input.addEventListener('blur', (e) => {
+                // Close dropdown on blur
+                input.addEventListener('blur', () => {
                     setTimeout(() => {
-                        if (!dropdown.contains(document.activeElement)) {
-                            dropdown.classList.remove('show');
-                        }
-                    }, 200);
+                        dropdown.classList.remove('show');
+                    }, 150);
                 });
             });
             
