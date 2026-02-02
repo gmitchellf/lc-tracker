@@ -553,23 +553,8 @@
             }
         }
 
-        // Game data
-        const games = [
-            {"date": "2025-10-28", "type": "Ranked Flex", "opponent": "KKA", "comp_type": "Peel", "picks": "Illaoi, Voli, Mel, Varus, Milio", "result": "Win", "gold_10": -120, "gold_20": 898, "gold_30": 2736, "gold_40": 887, "gold_50": 111, "length": "00:33:57"},
-            {"date": "2026-01-05", "type": "Ranked Flex", "opponent": "NORMALS", "comp_type": "Pick", "picks": "Xerath, Viego, Ashe, Blitz, Sett", "result": "Win", "gold_10": 345, "gold_20": 5443, "gold_30": 4200, "gold_40": 2100, "gold_50": 1200, "length": "22:17:00"},
-            {"date": "2026-01-05", "type": "Ranked Flex", "opponent": "NORMALS", "comp_type": "Engage", "picks": "Vel'Koz, Kaisa, Leona, Ambessa, Garen", "result": "Win", "gold_10": 200, "gold_20": 0, "gold_30": 1500, "gold_40": 800, "gold_50": 400, "length": "16:07:00"},
-            {"date": "2026-01-08", "type": "Ranked Flex", "opponent": "RANKED FLEX", "comp_type": "Pick", "picks": "Malphite, Diana, Cait, Tahm, Nafiri", "result": "Loss", "gold_10": -500, "gold_20": -1856, "gold_30": -1200, "gold_40": -800, "gold_50": -600, "length": "00:37:30"},
-            {"date": "2026-01-13", "type": "Ranked Flex", "opponent": "RANKED FLEX", "comp_type": "Scale", "picks": "Xerath, Smolder, Karma, Mundo, Yorick", "result": "Win", "gold_10": 120, "gold_20": 4009, "gold_30": 3500, "gold_40": 2200, "gold_50": 1500, "length": "00:32:19"},
-            {"date": "2026-01-13", "type": "Ranked Flex", "opponent": "RANKED FLEX", "comp_type": "Scale", "picks": "Veigar, Smolder, Sylas, Sett, Thresh", "result": "Win", "gold_10": 250, "gold_20": 1239, "gold_30": 2100, "gold_40": 1800, "gold_50": 1200, "length": "41:04"},
-            {"date": "2026-01-18", "type": "Ranked Flex", "opponent": "Normals (Comp)", "comp_type": "Engage", "picks": "Ambessa, Kaisa, Leona, Xerath, Renekton", "result": "Win", "gold_10": 150, "gold_20": 1990, "gold_30": 2500, "gold_40": 1600, "gold_50": 900, "length": "30:09"},
-            {"date": "2026-01-23", "type": "Scrim", "opponent": "SYN DUSK", "comp_type": "Peel", "picks": "Blitz, MF, Veigar, Voli, Sion", "result": "Win", "gold_10": 300, "gold_20": 3407, "gold_30": 3800, "gold_40": 2400, "gold_50": 1100, "length": "36:10"},
-            {"date": "2026-01-23", "type": "Scrim", "opponent": "SYN DUSK", "comp_type": "Scale", "picks": "Xayah, Cho, Rakan, Xerath, Malphite", "result": "Loss", "gold_10": -300, "gold_20": -5084, "gold_30": -3200, "gold_40": -1800, "gold_50": -1000, "length": "29:12"},
-            {"date": "2026-01-23", "type": "Scrim", "opponent": "SYN DUSK", "comp_type": "Engage", "picks": "Anivia, Vi, Garen, Leona, Kaisa", "result": "Loss", "gold_10": 600, "gold_20": 5363, "gold_30": 4100, "gold_40": 2800, "gold_50": 1500, "length": "51:27"},
-            {"date": "2026-01-26", "type": "Ranked Flex", "opponent": "Ranked Flex", "comp_type": "Engage", "picks": "Mundo, Renata, ASOL, MF, Garen", "result": "Win", "gold_10": 100, "gold_20": 187, "gold_30": 1200, "gold_40": 900, "gold_50": 600, "length": "32:19"},
-            {"date": "2026-01-28", "type": "Ranked Flex", "opponent": "Ranked Flex", "comp_type": "Scale", "picks": "Mundo, Jinx, Asol, Garen, Janna", "result": "Win", "gold_10": -200, "gold_20": -5341, "gold_30": -3000, "gold_40": 1500, "gold_50": 3000, "length": "39:51"},
-            {"date": "2026-01-28", "type": "Ranked Flex", "opponent": "Ranked Flex", "comp_type": "Peel", "picks": "Ashe, Braum, Syndra, Nasus, Ambessa", "result": "Win", "gold_10": 250, "gold_20": 718, "gold_30": 2000, "gold_40": 1400, "gold_50": 800, "length": "34:25"},
-            {"date": "2026-02-01", "type": "Ranked Flex", "opponent": "Ranked Flex", "comp_type": "Scale", "picks": "Smolder, Vi, Asol, Alistar, Illaoi", "result": "Loss", "gold_10": -150, "gold_20": -1445, "gold_30": -800, "gold_40": -500, "gold_50": -300, "length": "37:50"}
-        ];
+        // Game data - will be populated from Google Sheets
+        let games = [];
 
         // Calculate averages for gold at different timestamps
         function calculateGoldAverages() {
