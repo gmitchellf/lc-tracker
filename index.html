@@ -571,13 +571,20 @@
         }
 
         // Create line chart
+        let lineChartInstance = null;
+        
         function createLineChart() {
             const averages = calculateGoldAverages();
             const ctx = document.getElementById('goldDiffLineChart');
             
             if (!ctx) return;
+            
+            // Destroy existing chart if it exists
+            if (lineChartInstance) {
+                lineChartInstance.destroy();
+            }
 
-            new Chart(ctx, {
+            lineChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['@10', '@20', '@30', '@40', '@50'],
@@ -888,6 +895,7 @@
                     console.log('Mapped games:', window.games);
                     populateGamesTable();
                     updateChartValues();
+                    createLineChart(); // Recreate line chart with new data
                 }
 
                 // Map players
