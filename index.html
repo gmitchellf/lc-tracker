@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leona's Chairs - Team Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    
+    <div class="container">
+        <header>
+            <div class="team-logo">Leona's Chairs</div>
+            <div class="team-subtitle">LC Gaming • Semi-Pro LoL Team</div>
+            <div class="motto">"He's a pig, but he's not quite John Pork. / Sit on me Grimy L"</div>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" onclick="showSection('overview')">Overview</button>
+            <button class="nav-btn" onclick="showSection('players')">Champion Pools</button>
+            <button class="nav-btn" onclick="showSection('games')">Match History</button>
+            <button class="nav-btn" onclick="showSection('draft')">Draft Tool</button>
+        </nav>
+
+        <!-- Overview Section -->
+        <section id="overview" class="section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Games Played</div>
+                    <div class="stat-value">14</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Wins</div>
+                    <div class="stat-value win-rate">10</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Win Rate</div>
+                    <div class="stat-value win-rate">71.4%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Losses</div>
+                    <div class="stat-value" style="color: var(--loss-color);">4</div>
+                </div>
+            </div>
+
+            <div class="gold-diff-chart">
+                <h2 class="chart-title">Average Gold Difference @ Time</h2>
+                <div class="chart-bars">
+                    <div class="chart-bar">
+                        <div class="bar-fill" style="height: 0%; background: linear-gradient(180deg, var(--loss-color), var(--accent-purple));" data-height="10"></div>
+                        <div class="bar-label">@10</div>
+                        <div class="bar-value">-120</div>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="bar-fill" style="height: 0%;" data-height="60"></div>
+                        <div class="bar-label">@20</div>
+                        <div class="bar-value">+898</div>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="bar-fill" style="height: 0%;" data-height="100"></div>
+                        <div class="bar-label">@30</div>
+                        <div class="bar-value">+2737</div>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="bar-fill" style="height: 0%;" data-height="55"></div>
+                        <div class="bar-label">@40</div>
+                        <div class="bar-value">+887</div>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="bar-fill" style="height: 0%;" data-height="15"></div>
+                        <div class="bar-label">@50</div>
+                        <div class="bar-value">+112</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Players Section -->
+        <section id="players" class="section">
+            <h2 class="section-title">Champion Pools</h2>
+            <div class="players-grid">
+                <div class="player-card">
+                    <div class="player-name">LC Pretzel</div>
+                    <div class="champion-section">
+                        <div class="champion-label">★ Best Champion</div>
+                        <div class="champion-name best">Illaoi</div>
+                    </div>
+                    <div class="champion-section">
+                        <div class="champion-label">Comfort Picks</div>
+                        <div class="champion-name">Tahm Kench</div>
+                        <div class="champion-name">Yorick</div>
+                        <div class="champion-name">Heimerdinger</div>
+                    </div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-name">LC Madness</div>
+                    <div class="champion-section">
+                        <div class="champion-label">★ Best Champion</div>
+                        <div class="champion-name best">Ambessa</div>
+                    </div>
+                    <div class="champion-section">
+                        <div class="champion-label">Comfort Picks</div>
+                        <div class="champion-name">Dr. Mundo</div>
+                        <div class="champion-name">Sylas</div>
+                        <div class="champion-name">Volibear</div>
+                    </div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-name">LC Midas</div>
+                    <div class="champion-section">
+                        <div class="champion-label">★ Best Champion</div>
+                        <div class="champion-name best">Jhin</div>
+                    </div>
+                    <div class="champion-section">
+                        <div class="champion-label">Comfort Picks</div>
+                        <div class="champion-name">Jinx</div>
+                        <div class="champion-name">Caitlyn</div>
+                        <div class="champion-name">Miss Fortune</div>
+                    </div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-name">LC Stache</div>
+                    <div class="champion-section">
+                        <div class="champion-label">★ Best Champion</div>
+                        <div class="champion-name best">Xerath</div>
+                    </div>
+                    <div class="champion-section">
+                        <div class="champion-label">Comfort Picks</div>
+                        <div class="champion-name">Veigar</div>
+                        <div class="champion-name">Galio</div>
+                        <div class="champion-name">Mel</div>
+                    </div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-name">LC Denter</div>
+                    <div class="champion-section">
+                        <div class="champion-label">★ Best Champion</div>
+                        <div class="champion-name best">Zyra</div>
+                    </div>
+                    <div class="champion-section">
+                        <div class="champion-label">Comfort Picks</div>
+                        <div class="champion-name">Galio</div>
+                        <div class="champion-name">Lux</div>
+                        <div class="champion-name">Braum</div>
+                    </div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-name">LC Sheep</div>
+                    <div class="champion-section">
+                        <div class="champion-label">★ Best Champion</div>
+                        <div class="champion-name best">Garen</div>
+                    </div>
+                    <div class="champion-section">
+                        <div class="champion-label">Comfort Picks</div>
+                        <div class="champion-name">Cho'Gath</div>
+                        <div class="champion-name">Sion</div>
+                        <div class="champion-name">Dr. Mundo</div>
+                    </div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-name">LC Nappeh</div>
+                    <div class="champion-section">
+                        <div class="champion-label">★ Best Champion</div>
+                        <div class="champion-name best">Blitzcrank</div>
+                    </div>
+                    <div class="champion-section">
+                        <div class="champion-label">Comfort Picks</div>
+                        <div class="champion-name">Renekton</div>
+                        <div class="champion-name">Braum</div>
+                        <div class="champion-name">Shen</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Section -->
+        <section id="games" class="section">
+            <h2 class="section-title">Match History</h2>
+            <table class="games-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Opponent</th>
+                        <th>Comp</th>
+                        <th>Team Picks</th>
+                        <th>Result</th>
+                        <th>@20 Gold</th>
+                        <th>Length</th>
+                    </tr>
+                </thead>
+                <tbody id="gamesTableBody">
+                    <!-- Games will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Draft Tool Section -->
+        <section id="draft" class="section">
+            <h2 class="section-title">Draft Tool</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                Select champions for each role to analyze team composition
+            </p>
+            <div class="draft-container">
+                <div class="draft-side blue">
+                    <h3 class="side-title">Allied Team</h3>
+                    <div class="role-pick">
+                        <div class="role-label">Top Lane</div>
+                        <select class="champion-select" id="ally-top">
+                            <option value="">Select Champion</option>
+                            <option>Malphite</option>
+                            <option>Garen</option>
+                            <option>Illaoi</option>
+                            <option>Sion</option>
+                            <option>Cho'Gath</option>
+                        </select>
+                    </div>
+                    <div class="role-pick">
+                        <div class="role-label">Jungle</div>
+                        <select class="champion-select" id="ally-jungle">
+                            <option value="">Select Champion</option>
+                            <option>Ambessa</option>
+                            <option>Sylas</option>
+                            <option>Volibear</option>
+                            <option>Vi</option>
+                            <option>Viego</option>
+                        </select>
+                    </div>
+                    <div class="role-pick">
+                        <div class="role-label">Mid Lane</div>
+                        <select class="champion-select" id="ally-mid">
+                            <option value="">Select Champion</option>
+                            <option>Xerath</option>
+                            <option>Veigar</option>
+                            <option>Galio</option>
+                            <option>Naafiri</option>
+                            <option>Aurelion Sol</option>
+                        </select>
+                    </div>
+                    <div class="role-pick">
+                        <div class="role-label">ADC</div>
+                        <select class="champion-select" id="ally-adc">
+                            <option value="">Select Champion</option>
+                            <option>Jhin</option>
+                            <option>Jinx</option>
+                            <option>Caitlyn</option>
+                            <option>Miss Fortune</option>
+                            <option>Ashe</option>
+                        </select>
+                    </div>
+                    <div class="role-pick">
+                        <div class="role-label">Support</div>
+                        <select class="champion-select" id="ally-support">
+                            <option value="">Select Champion</option>
+                            <option>Blitzcrank</option>
+                            <option>Braum</option>
+                            <option>Zyra</option>
+                            <option>Lux</option>
+                            <option>Thresh</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="draft-side red">
+                    <h3 class="side-title">Enemy Team</h3>
+                    <div class="role-pick">
+                        <div class="role-label">Top Lane</div>
+                        <select class="champion-select" id="enemy-top">
+                            <option value="">Select Champion</option>
+                            <option>Darius</option>
+                            <option>Fiora</option>
+                            <option>Jax</option>
+                            <option>Camille</option>
+                            <option>Aatrox</option>
+                        </select>
+                    </div>
+                    <div class="role-pick">
+                        <div class="role-label">Jungle</div>
+                        <select class="champion-select" id="enemy-jungle">
+                            <option value="">Select Champion</option>
+                            <option>Lee Sin</option>
+                            <option>Graves</option>
+                            <option>Elise</option>
+                            <option>Kha'Zix</option>
+                            <option>Rek'Sai</option>
+                        </select>
+                    </div>
+                    <div class="role-pick">
+                        <div class="role-label">Mid Lane</div>
+                        <select class="champion-select" id="enemy-mid">
+                            <option value="">Select Champion</option>
+                            <option>Zed</option>
+                            <option>Yasuo</option>
+                            <option>Syndra</option>
+                            <option>Orianna</option>
+                            <option>Viktor</option>
+                        </select>
+                    </div>
+                    <div class="role-pick">
+                        <div class="role-label">ADC</div>
+                        <select class="champion-select" id="enemy-adc">
+                            <option value="">Select Champion</option>
+                            <option>Kai'Sa</option>
+                            <option>Ezreal</option>
+                            <option>Vayne</option>
+                            <option>Draven</option>
+                            <option>Lucian</option>
+                        </select>
+                    </div>
+                    <div class="role-pick">
+                        <div class="role-label">Support</div>
+                        <select class="champion-select" id="enemy-support">
+                            <option value="">Select Champion</option>
+                            <option>Nautilus</option>
+                            <option>Leona</option>
+                            <option>Thresh</option>
+                            <option>Pyke</option>
+                            <option>Bard</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Leona's Chairs © 2026 • Semi-Pro League of Legends Team</p>
+            <p style="margin-top: 0.5rem; opacity: 0.6;">Powered by determination and hextech</p>
+        </footer>
+    </div>
+
+    <script>
+        // Game data
+        const games = [
+            {"date": "2025-10-28", "type": "Ranked Flex", "opponent": "KKA", "comp_type": "Peel", "picks": "Illaoi, Voli, Mel, Varus, Milio", "result": "Win", "gold_20": 3945, "length": "00:33:57"},
+            {"date": "2026-01-05", "type": "Ranked Flex", "opponent": "NORMALS", "comp_type": "Pick", "picks": "Xerath, Viego, Ashe, Blitz, Sett", "result": "Win", "gold_20": 5443, "length": "22:17:00"},
+            {"date": "2026-01-05", "type": "Ranked Flex", "opponent": "NORMALS", "comp_type": "Engage", "picks": "Vel'Koz, Kaisa, Leona, Ambessa, Garen", "result": "Win", "gold_20": 0, "length": "16:07:00"},
+            {"date": "2026-01-08", "type": "Ranked Flex", "opponent": "RANKED FLEX", "comp_type": "Pick", "picks": "Malphite, Diana, Cait, Tahm, Nafiri", "result": "Loss", "gold_20": -1856, "length": "00:37:30"},
+            {"date": "2026-01-13", "type": "Ranked Flex", "opponent": "RANKED FLEX", "comp_type": "Scale", "picks": "Xerath, Smolder, Karma, Mundo, Yorick", "result": "Win", "gold_20": 4009, "length": "00:32:19"},
+            {"date": "2026-01-13", "type": "Ranked Flex", "opponent": "RANKED FLEX", "comp_type": "Scale", "picks": "Veigar, Smolder, Sylas, Sett, Thresh", "result": "Win", "gold_20": 1239, "length": "41:04"},
+            {"date": "2026-01-18", "type": "Ranked Flex", "opponent": "Normals (Comp)", "comp_type": "Engage", "picks": "Ambessa, Kaisa, Leona, Xerath, Renekton", "result": "Win", "gold_20": 1990, "length": "30:09"},
+            {"date": "2026-01-23", "type": "Scrim", "opponent": "SYN DUSK", "comp_type": "Peel", "picks": "Blitz, MF, Veigar, Voli, Sion", "result": "Win", "gold_20": 3407, "length": "36:10"},
+            {"date": "2026-01-23", "type": "Scrim", "opponent": "SYN DUSK", "comp_type": "Scale", "picks": "Xayah, Cho, Rakan, Xerath, Malphite", "result": "Loss", "gold_20": -5084, "length": "29:12"},
+            {"date": "2026-01-23", "type": "Scrim", "opponent": "SYN DUSK", "comp_type": "Engage", "picks": "Anivia, Vi, Garen, Leona, Kaisa", "result": "Loss", "gold_20": 5363, "length": "51:27"},
+            {"date": "2026-01-26", "type": "Ranked Flex", "opponent": "Ranked Flex", "comp_type": "Engage", "picks": "Mundo, Renata, ASOL, MF, Garen", "result": "Win", "gold_20": 187, "length": "32:19"},
+            {"date": "2026-01-28", "type": "Ranked Flex", "opponent": "Ranked Flex", "comp_type": "Scale", "picks": "Mundo, Jinx, Asol, Garen, Janna", "result": "Win", "gold_20": -5341, "length": "39:51"},
+            {"date": "2026-01-28", "type": "Ranked Flex", "opponent": "Ranked Flex", "comp_type": "Peel", "picks": "Ashe, Braum, Syndra, Nasus, Ambessa", "result": "Win", "gold_20": 718, "length": "34:25"},
+            {"date": "2026-02-01", "type": "Ranked Flex", "opponent": "Ranked Flex", "comp_type": "Scale", "picks": "Smolder, Vi, Asol, Alistar, Illaoi", "result": "Loss", "gold_20": -1445, "length": "37:50"}
+        ];
+
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Animate chart bars when overview is shown
+            if (sectionId === 'overview') {
+                setTimeout(() => {
+                    document.querySelectorAll('.bar-fill').forEach(bar => {
+                        bar.style.height = bar.dataset.height + '%';
+                    });
+                }, 100);
+            }
+        }
+
+        // Populate games table
+        function populateGamesTable() {
+            const tbody = document.getElementById('gamesTableBody');
+            
+            games.forEach(game => {
+                const row = document.createElement('tr');
+                
+                const goldClass = game.gold_20 > 0 ? 'positive' : game.gold_20 < 0 ? 'negative' : '';
+                const goldValue = game.gold_20 ? (game.gold_20 > 0 ? '+' : '') + game.gold_20 : '—';
+                
+                row.innerHTML = `
+                    <td>${game.date}</td>
+                    <td>${game.type}</td>
+                    <td>${game.opponent}</td>
+                    <td><span class="comp-type-badge">${game.comp_type}</span></td>
+                    <td><div class="picks-display">${game.picks}</div></td>
+                    <td><span class="result-badge ${game.result.toLowerCase()}">${game.result}</span></td>
+                    <td><span class="gold-diff ${goldClass}">${goldValue}</span></td>
+                    <td>${game.length}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateGamesTable();
+            
+            // Animate chart bars on load
+            setTimeout(() => {
+                document.querySelectorAll('.bar-fill').forEach(bar => {
+                    bar.style.height = bar.dataset.height + '%';
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

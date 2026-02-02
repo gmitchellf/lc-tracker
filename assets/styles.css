@@ -1,0 +1,688 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-dark: #010a13;
+  --bg-secondary: #0a1929;
+  --bg-card: #0d1b2a;
+  --accent-gold: #c8aa6e;
+  --accent-blue: #0ac8b9;
+  --accent-purple: #7c3aed;
+  --text-primary: #f0e6d2;
+  --text-secondary: #a09b8c;
+  --win-color: #00d084;
+  --loss-color: #e84545;
+  --border-glow: rgba(200, 170, 110, 0.3);
+}
+
+body {
+  font-family: "Rajdhani", sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Animated background */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(124, 58, 237, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(10, 200, 185, 0.1) 0%,
+      transparent 50%
+    ),
+    linear-gradient(180deg, var(--bg-dark) 0%, #0a1929 100%);
+  z-index: -1;
+  animation: bgPulse 10s ease-in-out infinite;
+}
+
+@keyframes bgPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Hextech grid overlay */
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(200, 170, 110, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 170, 110, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+header {
+  padding: 2rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.team-logo {
+  font-family: "Orbitron", sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  background: linear-gradient(
+    135deg,
+    var(--accent-gold) 0%,
+    #e8d4a0 50%,
+    var(--accent-gold) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 30px rgba(200, 170, 110, 0.5);
+  animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 20px rgba(200, 170, 110, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 40px rgba(200, 170, 110, 0.8));
+  }
+}
+
+.team-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.motto {
+  font-style: italic;
+  color: var(--accent-blue);
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 3rem 0;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  background: linear-gradient(
+    135deg,
+    var(--bg-card) 0%,
+    var(--bg-secondary) 100%
+  );
+  border: 2px solid var(--border-glow);
+  color: var(--text-primary);
+  padding: 1rem 2rem;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  position: relative;
+  clip-path: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+  transition: all 0.3s ease;
+}
+
+.nav-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-blue));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  clip-path: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+}
+
+.nav-btn:hover::before,
+.nav-btn.active::before {
+  opacity: 0.2;
+}
+
+.nav-btn.active {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 20px rgba(200, 170, 110, 0.4);
+}
+
+/* Section container */
+.section {
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background: linear-gradient(
+    135deg,
+    var(--bg-card) 0%,
+    var(--bg-secondary) 100%
+  );
+  border: 1px solid var(--border-glow);
+  padding: 2rem;
+  clip-path: polygon(
+    15px 0,
+    100% 0,
+    100% calc(100% - 15px),
+    calc(100% - 15px) 100%,
+    0 100%,
+    0 15px
+  );
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-gold),
+    transparent
+  );
+  animation: scanline 3s linear infinite;
+}
+
+@keyframes scanline {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(200, 170, 110, 0.2);
+  border-color: var(--accent-gold);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-family: "Orbitron", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-shadow: 0 0 10px rgba(200, 170, 110, 0.5);
+}
+
+.stat-value.win-rate {
+  color: var(--win-color);
+}
+
+/* Gold Diff Chart */
+.gold-diff-chart {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  clip-path: polygon(
+    20px 0,
+    100% 0,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    0 100%,
+    0 20px
+  );
+}
+
+.chart-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.5rem;
+  color: var(--accent-gold);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.chart-bars {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 200px;
+  gap: 1rem;
+}
+
+.chart-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bar-fill {
+  width: 100%;
+  background: linear-gradient(180deg, var(--accent-gold), var(--accent-blue));
+  position: relative;
+  transition: height 1s ease;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 0 20px rgba(200, 170, 110, 0.3);
+}
+
+.bar-label {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.bar-value {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.8rem;
+  color: var(--accent-gold);
+  margin-top: 0.5rem;
+}
+
+/* Players Grid */
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.player-card {
+  background: linear-gradient(
+    135deg,
+    var(--bg-card) 0%,
+    var(--bg-secondary) 100%
+  );
+  border: 2px solid var(--border-glow);
+  padding: 2rem;
+  clip-path: polygon(
+    20px 0,
+    100% 0,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    0 100%,
+    0 20px
+  );
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.player-card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(200, 170, 110, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+}
+
+.player-card:hover::after {
+  top: 100%;
+}
+
+.player-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--accent-gold);
+  box-shadow: 0 15px 40px rgba(200, 170, 110, 0.3);
+}
+
+.player-name {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.champion-section {
+  margin: 1rem 0;
+}
+
+.champion-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.champion-name {
+  font-size: 1.1rem;
+  color: var(--accent-blue);
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.champion-name.best {
+  color: var(--accent-gold);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* Games Table */
+.games-table {
+  width: 100%;
+  margin: 2rem 0;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+}
+
+.games-table thead th {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.9rem;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1rem;
+  text-align: left;
+  background: var(--bg-card);
+}
+
+.games-table tbody tr {
+  background: linear-gradient(
+    135deg,
+    var(--bg-card) 0%,
+    var(--bg-secondary) 100%
+  );
+  border: 1px solid var(--border-glow);
+  transition: all 0.3s ease;
+}
+
+.games-table tbody tr:hover {
+  transform: translateX(5px);
+  box-shadow: 0 5px 20px rgba(200, 170, 110, 0.2);
+}
+
+.games-table tbody td {
+  padding: 1rem;
+  border-top: 1px solid rgba(200, 170, 110, 0.1);
+  border-bottom: 1px solid rgba(200, 170, 110, 0.1);
+}
+
+.games-table tbody tr td:first-child {
+  border-left: 1px solid rgba(200, 170, 110, 0.1);
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+}
+
+.games-table tbody tr td:last-child {
+  border-right: 1px solid rgba(200, 170, 110, 0.1);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%
+  );
+}
+
+.result-badge {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  border-radius: 3px;
+  font-family: "Orbitron", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.result-badge.win {
+  background: var(--win-color);
+  color: var(--bg-dark);
+  box-shadow: 0 0 15px rgba(0, 208, 132, 0.4);
+}
+
+.result-badge.loss {
+  background: var(--loss-color);
+  color: var(--bg-dark);
+  box-shadow: 0 0 15px rgba(232, 69, 69, 0.4);
+}
+
+.gold-diff {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 600;
+}
+
+.gold-diff.positive {
+  color: var(--win-color);
+}
+
+.gold-diff.negative {
+  color: var(--loss-color);
+}
+
+/* Draft Tool Section */
+.draft-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.draft-side {
+  background: var(--bg-card);
+  border: 2px solid var(--border-glow);
+  padding: 2rem;
+  clip-path: polygon(
+    20px 0,
+    100% 0,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    0 100%,
+    0 20px
+  );
+}
+
+.draft-side.blue {
+  border-color: var(--accent-blue);
+}
+
+.draft-side.red {
+  border-color: var(--loss-color);
+}
+
+.side-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.draft-side.blue .side-title {
+  color: var(--accent-blue);
+}
+
+.draft-side.red .side-title {
+  color: var(--loss-color);
+}
+
+.role-pick {
+  margin: 1.5rem 0;
+}
+
+.role-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.champion-select {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glow);
+  color: var(--text-primary);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  clip-path: polygon(
+    8px 0,
+    100% 0,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    0 100%,
+    0 8px
+  );
+}
+
+.champion-select:hover {
+  border-color: var(--accent-gold);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 3rem 0;
+  margin-top: 5rem;
+  border-top: 1px solid var(--border-glow);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .team-logo {
+    font-size: 2.5rem;
+  }
+
+  .draft-container {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.8rem;
+  }
+
+  .games-table {
+    font-size: 0.85rem;
+  }
+
+  .games-table thead th,
+  .games-table tbody td {
+    padding: 0.5rem;
+  }
+}
+
+.section-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-align: center;
+  margin: 3rem 0 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.picks-display {
+  font-size: 0.9rem;
+  color: var(--accent-blue);
+  line-height: 1.6;
+}
+
+.comp-type-badge {
+  display: inline-block;
+  padding: 0.2rem 0.8rem;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: var(--text-primary);
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
