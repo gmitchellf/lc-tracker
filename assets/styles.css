@@ -26,6 +26,12 @@ body {
   position: relative;
 }
 
+.logo-image {
+  max-width: 280px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
 /* Animated background */
 body::before {
   content: "";
@@ -316,6 +322,12 @@ nav {
   );
 }
 
+.line-chart-container {
+  margin-bottom: 2rem;
+  width: 100%;
+  height: 250px;
+}
+
 .chart-title {
   font-family: "Orbitron", sans-serif;
   font-size: 1.5rem;
@@ -328,7 +340,6 @@ nav {
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
-  height: 200px;
   gap: 1rem;
 }
 
@@ -685,4 +696,168 @@ footer {
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
+}
+
+/* Player Card Footer */
+.card-footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-glow);
+  font-size: 0.85rem;
+  color: var(--accent-blue);
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.player-card:hover .card-footer {
+  color: var(--accent-gold);
+}
+
+/* Player Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+  margin: 5% auto;
+  padding: 2rem;
+  border: 1px solid var(--border-glow);
+  width: 90%;
+  max-width: 600px;
+  border-radius: 8px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 0 30px rgba(10, 200, 185, 0.3);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-content h2 {
+  font-family: "Orbitron", sans-serif;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px rgba(200, 170, 110, 0.5);
+}
+
+.close {
+  color: var(--text-secondary);
+  float: right;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close:hover,
+.close:focus {
+  color: var(--accent-gold);
+}
+
+.player-detail-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.detail-item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: var(--accent-blue);
+  font-size: 0.95rem;
+}
+
+.detail-value {
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* Draft Tool Styling */
+.draft-summaries {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-box {
+  padding: 1.5rem;
+  border: 1px solid var(--border-glow);
+  background: var(--bg-card);
+  border-radius: 4px;
+}
+
+.summary-box h3 {
+  font-family: "Orbitron", sans-serif;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.summary-box.allied {
+  border-left: 3px solid var(--accent-blue);
+}
+
+.summary-box.enemy {
+  border-left: 3px solid var(--loss-color);
+}
+
+.comp-summary {
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.match-summary-box {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(10, 200, 185, 0.1), rgba(124, 58, 237, 0.1));
+  border: 1px solid var(--border-glow);
+  border-radius: 4px;
+  margin-bottom: 2rem;
+}
+
+.match-summary-box h3 {
+  font-family: "Orbitron", sans-serif;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.match-summary {
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 0.95rem;
 }
