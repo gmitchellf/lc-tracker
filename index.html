@@ -243,6 +243,17 @@
             </div>
         </div>
 
+        <!-- Reflections Modal -->
+        <div id="reflectionsModal" class="modal">
+            <div class="modal-content reflections-modal">
+                <span class="close" onclick="closeReflectionsModal()">&times;</span>
+                <h2 class="modal-title">Game Reflections</h2>
+                <div id="reflectionsBody">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
         <!-- Games Section -->
         <section id="games" class="section">
             <h2 class="section-title">Match History</h2>
@@ -258,11 +269,12 @@
                         <th data-priority="3">Result</th>
                         <th data-priority="6">@20 Gold</th>
                         <th data-priority="7">Length</th>
+                        <th data-priority="9">Reflections</th>
                     </tr>
                 </thead>
                 <tbody id="gamesTableBody">
                     <tr id="gamesLoadingRow" class="loading-row">
-                        <td colspan="8">
+                        <td colspan="9">
                             <div class="loading-container">
                                 <div class="spinner"></div>
                                 <span class="loading-text">Loading match history...</span>
@@ -534,11 +546,99 @@
             document.getElementById('playerModal').style.display = 'none';
         }
 
+        // Reflections data - will be populated from Google Sheets
+        let reflections = [];
+
+        // Get reflections for a specific game date
+        function getReflectionsForGame(gameDate) {
+            console.log('[Reflections] Looking for game date:', gameDate);
+            console.log('[Reflections] Total reflections loaded:', reflections?.length || 0);
+            if (!reflections || !reflections.length) return [];
+            
+            // Parse DD/MM/YYYY or D/M/YYYY format (with optional time) to YYYY-MM-DD
+            const normalizeDate = (dateStr) => {
+                if (!dateStr) return '';
+                const str = String(dateStr).trim();
+                
+                // Already in YYYY-MM-DD format
+                if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+                    return str;
+                }
+                
+                // Match DD/MM/YYYY or D/M/YYYY (with optional time at the end)
+                const match = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+                if (match) {
+                    const day = match[1].padStart(2, '0');
+                    const month = match[2].padStart(2, '0');
+                    const year = match[3];
+                    return `${year}-${month}-${day}`;
+                }
+                
+                // Fallback: try parsing as Date (for ISO strings)
+                const d = new Date(str);
+                if (!isNaN(d)) {
+                    return d.toISOString().split('T')[0];
+                }
+                
+                return str;
+            };
+            
+            const normalizedGameDate = normalizeDate(gameDate);
+            
+            return reflections.filter(r => {
+                const reflectionDate = normalizeDate(r.gameDate);
+                return reflectionDate === normalizedGameDate;
+            });
+        }
+
+        // Open reflections modal
+        function openReflectionsModal(gameDate) {
+            const gameReflections = getReflectionsForGame(gameDate);
+            const modalBody = document.getElementById('reflectionsBody');
+            
+            if (!gameReflections.length) {
+                modalBody.innerHTML = '<p class="no-reflections-message">No reflections for this game.</p>';
+            } else {
+                modalBody.innerHTML = gameReflections.map(r => `
+                    <div class="reflection-card">
+                        <div class="reflection-header">
+                            <span class="reflection-player">${r.playerName}</span>
+                            <span class="reflection-comms">Comms: ${r.commsQuality}/5</span>
+                        </div>
+                        <div class="reflection-section">
+                            <span class="reflection-label">What worked well:</span>
+                            <p class="reflection-text">${r.whatWorked || '—'}</p>
+                        </div>
+                        <div class="reflection-section">
+                            <span class="reflection-label">What broke down:</span>
+                            <p class="reflection-text">${r.whatBroke || '—'}</p>
+                        </div>
+                        <div class="reflection-section">
+                            <span class="reflection-label">Focus for next scrim:</span>
+                            <p class="reflection-text">${r.focusNext || '—'}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('reflectionsModal').style.display = 'block';
+        }
+        window.openReflectionsModal = openReflectionsModal;
+
+        function closeReflectionsModal() {
+            document.getElementById('reflectionsModal').style.display = 'none';
+        }
+        window.closeReflectionsModal = closeReflectionsModal;
+
         // Close modal when clicking outside
         window.onclick = function(event) {
-            const modal = document.getElementById('playerModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
+            const playerModal = document.getElementById('playerModal');
+            const reflectionsModal = document.getElementById('reflectionsModal');
+            if (event.target === playerModal) {
+                playerModal.style.display = 'none';
+            }
+            if (event.target === reflectionsModal) {
+                reflectionsModal.style.display = 'none';
             }
         }
 
@@ -856,14 +956,22 @@
                 // Show loading spinner
                 const loadingRow = document.createElement('tr');
                 loadingRow.className = 'loading-row';
-                loadingRow.innerHTML = '<td colspan="8"><div class="loading-container"><div class="spinner"></div><span class="loading-text">Loading match history...</span></div></td>';
+                loadingRow.innerHTML = '<td colspan="9"><div class="loading-container"><div class="spinner"></div><span class="loading-text">Loading match history...</span></div></td>';
                 tbody.appendChild(loadingRow);
                 return;
             }
-            gamesList.forEach(game => {
+            gamesList.forEach((game, index) => {
                 const row = document.createElement('tr');
                 const goldClass = game.gold_20 > 0 ? 'positive' : game.gold_20 < 0 ? 'negative' : '';
                 const goldValue = game.gold_20 ? (game.gold_20 > 0 ? '+' : '') + game.gold_20 : '—';
+                
+                // Check if this game has reflections
+                const gameReflections = getReflectionsForGame(game.date);
+                const hasReflections = gameReflections && gameReflections.length > 0;
+                const reflectionsCell = hasReflections 
+                    ? `<button class="reflections-btn" onclick="openReflectionsModal('${game.date}')">View (${gameReflections.length})</button>`
+                    : '<span class="no-reflections">None</span>';
+                
                 row.innerHTML = `
                     <td>${game.date}</td>
                     <td>${game.type}</td>
@@ -873,6 +981,7 @@
                     <td><span class="result-badge ${game.result.toLowerCase()}">${game.result}</span></td>
                     <td><span class="gold-diff ${goldClass}">${goldValue}</span></td>
                     <td>${game.length}</td>
+                    <td>${reflectionsCell}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -933,7 +1042,10 @@
                 const res = await fetch(webAppUrl);
                 if (!res.ok) throw new Error('Fetch failed: ' + res.status);
                 const data = await res.json();
-
+                
+                console.log('[API] Full response keys:', Object.keys(data));
+                console.log('[API] Has reflections?', 'reflections' in data);
+                console.log('[API] Reflections value:', data.reflections);
 
 
                 // Map games
@@ -987,13 +1099,21 @@
                     window.games = data.games
                         .filter(g => g.Date || g.date) // Only include rows with dates
                         .map(g => {
-                            const dateStr = g.Date || g.date || '';
+                            const dateStr = String(g.Date || g.date || '').trim();
                             let formattedDate = dateStr;
-                            // Convert ISO date to simple format
-                            if (dateStr && typeof dateStr === 'string') {
+                            
+                            // Handle DD/MM/YYYY or D/M/YYYY format
+                            const parts = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+                            if (parts) {
+                                const day = parts[1].padStart(2, '0');
+                                const month = parts[2].padStart(2, '0');
+                                const year = parts[3];
+                                formattedDate = `${year}-${month}-${day}`;
+                            } else if (dateStr) {
+                                // Fallback for ISO format or other formats
                                 const dateObj = new Date(dateStr);
                                 if (!isNaN(dateObj)) {
-                                    formattedDate = dateObj.toISOString().split('T')[0]; // YYYY-MM-DD
+                                    formattedDate = dateObj.toISOString().split('T')[0];
                                 }
                             }
                             
@@ -1066,6 +1186,46 @@
                     championData = window.championData;
                     populateChampionDropdowns();
                     if (typeof updateDraftDisplay === 'function') updateDraftDisplay();
+                }
+
+                // Map reflections
+                console.log('[API] Raw reflections data:', data.reflections);
+                if (Array.isArray(data.reflections) && data.reflections.length) {
+                    console.log('[API] First raw reflection:', data.reflections[0]);
+                    console.log('[API] Reflection keys:', Object.keys(data.reflections[0]));
+                    window.reflections = data.reflections.map(r => {
+                        // Normalize the game date
+                        const gameDateRaw = r['Game Date'] || r.gameDate || r.game_date || '';
+                        console.log('[API] Raw game date from reflection:', gameDateRaw);
+                        let gameDate = String(gameDateRaw).trim();
+                        
+                        // Handle DD/MM/YYYY or D/M/YYYY format (with optional time at the end)
+                        const parts = gameDate.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+                        if (parts) {
+                            const day = parts[1].padStart(2, '0');
+                            const month = parts[2].padStart(2, '0');
+                            const year = parts[3];
+                            gameDate = `${year}-${month}-${day}`;
+                        }
+                        console.log('[API] Normalized game date:', gameDate);
+                        
+                        return {
+                            timestamp: r.Timestamp || r.timestamp || '',
+                            gameDate: gameDate,
+                            opponent: (r.Opponent || r.opponent || '').trim(),
+                            commsQuality: r['Comms quality (1-5)'] || r.commsQuality || r.comms_quality || '',
+                            whatWorked: r['What worked well this game?'] || r.whatWorked || r.what_worked || '',
+                            whatBroke: r['What broke down (mechanics/macro/comms)?'] || r.whatBroke || r.what_broke || '',
+                            focusNext: r["What's your focus for next scrim?"] || r.focusNext || r.focus_next || '',
+                            playerName: r['Player Name / Username'] || r.playerName || r.player_name || ''
+                        };
+                    });
+                    reflections = window.reflections;
+                    console.log('[API] Mapped reflections:', reflections);
+                    console.log('[API] Sample reflection dates:', reflections.slice(0, 5).map(r => r.gameDate));
+                    
+                    // Re-populate games table now that reflections are loaded
+                    populateGamesTable();
                 }
             } catch (err) {
                 console.error('Error fetching sheet data:', err);
