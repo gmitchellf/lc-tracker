@@ -571,103 +571,16 @@
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script>
-        // Player detailed information
-        const playerData = {
-            pretzel: {
-                name: "LC Pretzel",
-                rank: "Silver 4",
-                roles: "TOP/JGL/SUP/MID",
-                summary: "99% brainseed, 1% skill",
-                topChamps: "Illaoi, Morde, Lux, Heimer, Yorick",
-                style: "Bruiser/Mage",
-                weakness: "Ranged Tops, bad vision",
-                notes: "Is toxic af. Copies Cai being toxic"
-            },
-            madness: {
-                name: "LC Madness",
-                rank: "Gold 3",
-                roles: "JUNGLE/MID",
-                summary: "Never Present",
-                topChamps: "Ambessa, Mundo, Voli, Malph, Kayn",
-                style: "Fighter/Mages",
-                weakness: "Mental tilt and tempo",
-                notes: "Difficulty catching up from weakside/Midgame positioning"
-            },
-            midas: {
-                name: "LC Midas",
-                rank: "Silver 3",
-                roles: "ADC/MID/SUP",
-                summary: "Don't steal his farm",
-                topChamps: "Jhin, Jinx, Xayah, Caitlyn, Ori",
-                style: "Scaling/Carries/Teamfighter",
-                weakness: "Difficulty catching up from weakside/Midgame positioning",
-                notes: "Faker's Coach"
-            },
-            stache: {
-                name: "LC Stache",
-                rank: "Gold 3",
-                roles: "ALL MINUS JUNG",
-                summary: "Will tilt the enemy (if not restricted)",
-                topChamps: "Xerath, Mel, Galio, Akali, Talon",
-                style: "APCs / Engage Sups",
-                weakness: "Mega-Roamers / Bitch Champs",
-                notes: "Toxic. When Alex shouts at him (observed) also lack of time, mid/late game farming"
-            },
-            denter: {
-                name: "LC Denter",
-                rank: "Silver 1",
-                roles: "SUP/MID",
-                summary: "50% best player on the team, 50% most braindead bs u've ever seen",
-                topChamps: "Galio, Zyra, Lux, Leona, Braum",
-                style: "Poke/Harass",
-                weakness: "Vision (non obj)",
-                notes: ""
-            },
-            redsage: {
-                name: "LC Red Sage",
-                rank: "Bronze 3",
-                roles: "SUP/MID/TOP",
-                summary: "Has been playing for 15 years and is still in Bronze",
-                topChamps: "Leona, Nami, Sona, Janna, Vex",
-                style: "Violence",
-                weakness: "Lack of free time pushing at times when i should be respecting i.e where jungle is",
-                notes: ""
-            },
-            sheep: {
-                name: "LC Sheep",
-                rank: "Silver 4",
-                roles: "TOP/SUP",
-                summary: "Will go 0/10/0 but still win lane",
-                topChamps: "Garen, Mundo, Cho, Ornn, Shen",
-                style: "Tank, bruiser",
-                weakness: "Mega-Roamers / Bitch Champs",
-                notes: "Toxic"
-            },
-            nappeh: {
-                name: "LC Nappeh",
-                rank: "Iron 10",
-                roles: "TOP/SUPPORT",
-                summary: "Mega Autistic",
-                topChamps: "Renekton, Shen, Blitz, Braum, Sett",
-                style: "All in",
-                weakness: "Lategame positioning, Hands diff",
-                notes: "Cat Aggro"
-            },
-            aurora: {
-                name: "LC Aurora",
-                rank: "Unranked",
-                roles: "SUP/ADC/JGL",
-                summary: "Will go 0/10/0",
-                topChamps: "Evelynn, Seraphine, Caitlyn, Neeko, Nunu",
-                style: "Ranged / Poke",
-                weakness: "Lategame positioning, Hands diff",
-                notes: ""
-            }
-        };
+        // Player detailed information - will be populated from Google Sheets
+        let playerData = {};
 
         // Modal functions
         function openPlayerModal(playerId) {
             const player = playerData[playerId];
+            if (!player) {
+                console.warn('Player not found:', playerId);
+                return;
+            }
             const modalBody = document.getElementById('modalBody');
             
             modalBody.innerHTML = `
@@ -675,27 +588,27 @@
                 <div class="player-detail-grid">
                     <div class="detail-item">
                         <span class="detail-label">Rank:</span>
-                        <span class="detail-value">${player.rank}</span>
+                        <span class="detail-value">${player.rank || '—'}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Roles:</span>
-                        <span class="detail-value">${player.roles}</span>
+                        <span class="detail-value">${player.roles || '—'}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Summary:</span>
-                        <span class="detail-value">${player.summary}</span>
+                        <span class="detail-value">${player.summary || '—'}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Top 5 Champs:</span>
-                        <span class="detail-value">${player.topChamps}</span>
+                        <span class="detail-value">${player.topChamps || '—'}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Comfort Style:</span>
-                        <span class="detail-value">${player.style}</span>
+                        <span class="detail-value">${player.style || '—'}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Weakness:</span>
-                        <span class="detail-value">${player.weakness}</span>
+                        <span class="detail-value">${player.weakness || '—'}</span>
                     </div>
                     ${player.notes ? `<div class="detail-item">
                         <span class="detail-label">Notes:</span>
@@ -709,6 +622,39 @@
 
         function closePlayerModal() {
             document.getElementById('playerModal').style.display = 'none';
+        }
+
+        // Process player data from API into playerData object
+        function processPlayerData(players) {
+            if (!players || !Array.isArray(players)) return;
+            
+            players.forEach(p => {
+                // Get player name and create a key from it
+                const fullName = String(p['Player'] || '').trim();
+                if (!fullName) return;
+                
+                // Extract key from name: "LC Pretzel" -> "pretzel", "LC Midas (Team Manager)" -> "midas"
+                let key = fullName.toLowerCase()
+                    .replace(/^lc\s+/, '')  // Remove "LC " prefix
+                    .replace(/\s*\([^)]*\)\s*/g, '')  // Remove parenthetical text
+                    .replace(/\s+/g, '')  // Remove spaces
+                    .trim();
+                
+                // Handle special cases
+                if (key.includes('sheep') || key.includes('sh4un')) key = 'sheep';
+                if (key.includes('sage')) key = 'redsage';
+                
+                playerData[key] = {
+                    name: fullName,
+                    summary: String(p['Player Summary'] || '').trim(),
+                    roles: String(p['Primary Roles'] || '').trim(),
+                    rank: String(p['Rank'] || '').trim(),
+                    topChamps: String(p['Top 5 Champs'] || '').trim(),
+                    style: String(p['Comfort Style'] || '').trim(),
+                    weakness: String(p['Weakness'] || '').trim(),
+                    notes: String(p['Notes'] || '').trim()
+                };
+            });
         }
 
         // Reflections data - will be populated from Google Sheets
@@ -1740,7 +1686,7 @@
         }
 
         // Google Sheets web app URL — paste your deployed Apps Script Web App URL here
-        const GOOGLE_SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycby43t3O-8QmrZSYOsQf46pNF3jVzMP0wb3hmdGIyAT-3OPkuA5R-2yP4sgLSyyjElhexw/exec';
+        const GOOGLE_SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw_AAiY-wFBhMEJyGbSjhK8PaZrtJXqS6zDo4EUyxv1XHPNGk6jeAKmUVwE04Mvz4ynjw/exec';
 
         // Fetch data from Google Sheets Apps Script web app
         async function fetchSheetData(webAppUrl) {
@@ -1845,23 +1791,9 @@
                     document.getElementById('chart-content').style.display = 'block';
                 }
 
-                // Map players
+                // Map players from spreadsheet
                 if (Array.isArray(data.players) && data.players.length) {
-                    window.playerData = {};
-                    data.players.forEach(p => {
-                        const key = (p.key || p.id || p.handle || p.name || p.Name || '').toString().toLowerCase().replace(/\s+/g,'');
-                        if (!key) return;
-                        window.playerData[key] = {
-                            name: p.name || p.Name || '',
-                            rank: p.rank || p.Rank || '',
-                            roles: p.roles || p.Roles || '',
-                            summary: p.summary || p.Summary || '',
-                            topChamps: p.topChamps || p.TopChamps || p.top_champs || '',
-                            style: p.style || p.Style || '',
-                            weakness: p.weakness || p.Weakness || '',
-                            notes: p.notes || p.Notes || ''
-                        };
-                    });
+                    processPlayerData(data.players);
                 }
 
                 // Map champions
