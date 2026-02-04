@@ -625,12 +625,37 @@
             if (!gameReflections.length) {
                 modalBody.innerHTML = '<p class="no-reflections-message">No reflections for this game.</p>';
             } else {
-                modalBody.innerHTML = gameReflections.map(r => `
+                modalBody.innerHTML = gameReflections.map(r => {
+                    // Map role to icon filename
+                    const getRoleIcon = (role) => {
+                        if (!role) return '';
+                        const roleLower = role.toLowerCase().trim();
+                        const roleMap = {
+                            'top': 'Top_icon.png',
+                            'jungle': 'Jungle_icon.png',
+                            'jungler': 'Jungle_icon.png',
+                            'mid': 'Middle_icon.png',
+                            'middle': 'Middle_icon.png',
+                            'adc': 'Bottom_icon.png',
+                            'bot': 'Bottom_icon.png',
+                            'bottom': 'Bottom_icon.png',
+                            'support': 'Support_icon.png',
+                            'supp': 'Support_icon.png'
+                        };
+                        return roleMap[roleLower] || '';
+                    };
+                    
+                    const roleIcon = getRoleIcon(r.role);
+                    const roleHtml = roleIcon 
+                        ? `<div class="reflection-role-icon" title="${r.role}"><img src="assets/icons/${roleIcon}" alt="${r.role}"></div>`
+                        : '';
+                    
+                    return `
                     <div class="reflection-card">
                         <div class="reflection-header">
                             <span class="reflection-player">${r.playerName}</span>
                             <div class="reflection-badges">
-                                ${r.role ? `<span class="reflection-role">${r.role}</span>` : ''}
+                                ${roleHtml}
                                 <span class="reflection-comms">Comms: ${r.commsQuality}/5</span>
                             </div>
                         </div>
@@ -651,7 +676,8 @@
                             <p class="reflection-text">${r.focusNext || '—'}</p>
                         </div>
                     </div>
-                `).join('');
+                `;
+                }).join('');
             }
             
             document.getElementById('reflectionsModal').style.display = 'block';
