@@ -837,6 +837,8 @@
                 }, 100);
             }
         }
+        // Expose showSection globally for inline onclick handlers
+        window.showSection = showSection;
 
         // Populate games table
         function populateGamesTable() {
@@ -1063,10 +1065,11 @@
                     // Update local championData and populate dropdowns
                     championData = window.championData;
                     populateChampionDropdowns();
-                    typeof updateDraftDisplay === 'function' && updateDraftDisplay();
-
-
-
+                    if (typeof updateDraftDisplay === 'function') updateDraftDisplay();
+                }
+            } catch (err) {
+                console.error('Error fetching sheet data:', err);
+            }
         }
 
         // Populate champion dropdowns
