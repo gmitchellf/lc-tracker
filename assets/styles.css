@@ -238,6 +238,8 @@ nav {
   position: relative;
   clip-path: var(--clip-corner-md);
   transition: all var(--transition-normal);
+  text-decoration: none;
+  display: inline-block;
 }
 
 .nav-btn::before {
