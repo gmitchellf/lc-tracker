@@ -551,8 +551,6 @@
 
         // Get reflections for a specific game date
         function getReflectionsForGame(gameDate) {
-            console.log('[Reflections] Looking for game date:', gameDate);
-            console.log('[Reflections] Total reflections loaded:', reflections?.length || 0);
             if (!reflections || !reflections.length) return [];
             
             // Parse DD/MM/YYYY or D/M/YYYY format (with optional time) to YYYY-MM-DD
@@ -603,7 +601,10 @@
                     <div class="reflection-card">
                         <div class="reflection-header">
                             <span class="reflection-player">${r.playerName}</span>
-                            <span class="reflection-comms">Comms: ${r.commsQuality}/5</span>
+                            <div class="reflection-badges">
+                                ${r.role ? `<span class="reflection-role">${r.role}</span>` : ''}
+                                <span class="reflection-comms">Comms: ${r.commsQuality}/5</span>
+                            </div>
                         </div>
                         <div class="reflection-section">
                             <span class="reflection-label">What worked well:</span>
@@ -613,6 +614,10 @@
                             <span class="reflection-label">What broke down:</span>
                             <p class="reflection-text">${r.whatBroke || '—'}</p>
                         </div>
+                        ${r.whatWentWrong ? `<div class="reflection-section">
+                            <span class="reflection-label">What went wrong the most:</span>
+                            <p class="reflection-text">${r.whatWentWrong}</p>
+                        </div>` : ''}
                         <div class="reflection-section">
                             <span class="reflection-label">Focus for next scrim:</span>
                             <p class="reflection-text">${r.focusNext || '—'}</p>
@@ -987,7 +992,6 @@
             });
 
             initGamesDataTable();
-            console.log('Table populated with ' + gamesList.length + ' rows');
         }
 
         function initGamesDataTable() {
@@ -1021,14 +1025,15 @@
                     emptyTable: 'No matches available.'
                 },
                 columnDefs: [
-                    { responsivePriority: 1, targets: 0, className: 'all' },
-                    { responsivePriority: 2, targets: 1, className: 'all' },
-                    { responsivePriority: 3, targets: 3, className: 'all' },
-                    { responsivePriority: 4, targets: 5, className: 'all' },
-                    { responsivePriority: 5, targets: 2, className: 'min-tablet' },
-                    { responsivePriority: 6, targets: 6, className: 'min-tablet' },
-                    { responsivePriority: 7, targets: 7, className: 'min-tablet' },
-                    { responsivePriority: 8, targets: 4, className: 'min-desktop' }
+                    { responsivePriority: 1, targets: 0, className: 'all' },      // Date - always show
+                    { responsivePriority: 2, targets: 5, className: 'all' },      // Result - always show
+                    { responsivePriority: 3, targets: 2, className: 'min-tablet' }, // Opponent
+                    { responsivePriority: 4, targets: 1, className: 'min-tablet' }, // Type
+                    { responsivePriority: 5, targets: 6, className: 'min-tablet' }, // @20 Gold
+                    { responsivePriority: 6, targets: 7, className: 'min-tablet' }, // Length
+                    { responsivePriority: 7, targets: 3, className: 'min-desktop' }, // Comp
+                    { responsivePriority: 8, targets: 4, className: 'min-desktop' }, // Team Picks
+                    { responsivePriority: 9, targets: 8, className: 'min-desktop' }  // Reflections
                 ]
             });
         }
@@ -1042,11 +1047,6 @@
                 const res = await fetch(webAppUrl);
                 if (!res.ok) throw new Error('Fetch failed: ' + res.status);
                 const data = await res.json();
-                
-                console.log('[API] Full response keys:', Object.keys(data));
-                console.log('[API] Has reflections?', 'reflections' in data);
-                console.log('[API] Reflections value:', data.reflections);
-
 
                 // Map games
                 const formatGameLength = (raw) => {
@@ -1189,14 +1189,10 @@
                 }
 
                 // Map reflections
-                console.log('[API] Raw reflections data:', data.reflections);
                 if (Array.isArray(data.reflections) && data.reflections.length) {
-                    console.log('[API] First raw reflection:', data.reflections[0]);
-                    console.log('[API] Reflection keys:', Object.keys(data.reflections[0]));
                     window.reflections = data.reflections.map(r => {
                         // Normalize the game date
                         const gameDateRaw = r['Game Date'] || r.gameDate || r.game_date || '';
-                        console.log('[API] Raw game date from reflection:', gameDateRaw);
                         let gameDate = String(gameDateRaw).trim();
                         
                         // Handle DD/MM/YYYY or D/M/YYYY format (with optional time at the end)
@@ -1207,22 +1203,27 @@
                             const year = parts[3];
                             gameDate = `${year}-${month}-${day}`;
                         }
-                        console.log('[API] Normalized game date:', gameDate);
+                        
+                        // Find keys dynamically for columns with special characters
+                        const findValue = (obj, searchTerm) => {
+                            const key = Object.keys(obj).find(k => k.toLowerCase().includes(searchTerm.toLowerCase()));
+                            return key ? obj[key] : '';
+                        };
                         
                         return {
                             timestamp: r.Timestamp || r.timestamp || '',
                             gameDate: gameDate,
                             opponent: (r.Opponent || r.opponent || '').trim(),
                             commsQuality: r['Comms quality (1-5)'] || r.commsQuality || r.comms_quality || '',
-                            whatWorked: r['What worked well this game?'] || r.whatWorked || r.what_worked || '',
-                            whatBroke: r['What broke down (mechanics/macro/comms)?'] || r.whatBroke || r.what_broke || '',
-                            focusNext: r["What's your focus for next scrim?"] || r.focusNext || r.focus_next || '',
-                            playerName: r['Player Name / Username'] || r.playerName || r.player_name || ''
+                            whatWorked: findValue(r, 'worked well') || r.whatWorked || '',
+                            whatBroke: findValue(r, 'broke down') || r.whatBroke || '',
+                            focusNext: findValue(r, 'focus for next') || r.focusNext || '',
+                            playerName: r['Player Name / Username'] || r.playerName || r.player_name || '',
+                            whatWentWrong: findValue(r, 'went wrong') || r.whatWentWrong || '',
+                            role: findValue(r, 'role did you') || r.role || ''
                         };
                     });
                     reflections = window.reflections;
-                    console.log('[API] Mapped reflections:', reflections);
-                    console.log('[API] Sample reflection dates:', reflections.slice(0, 5).map(r => r.gameDate));
                     
                     // Re-populate games table now that reflections are loaded
                     populateGamesTable();

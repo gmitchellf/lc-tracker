@@ -1166,6 +1166,14 @@ footer {
   margin-bottom: 1rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(200, 170, 110, 0.2);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.reflection-badges {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .reflection-player {
@@ -1173,6 +1181,16 @@ footer {
   font-size: 1.1rem;
   color: var(--accent-blue);
   font-weight: 600;
+}
+
+.reflection-role {
+  background: rgba(10, 200, 185, 0.2);
+  color: var(--accent-blue);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
 .reflection-comms {
