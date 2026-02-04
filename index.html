@@ -23,10 +23,10 @@
         </header>
 
         <nav>
-            <a href="/" class="nav-btn active" data-section="overview">Overview</a>
-            <a href="/players" class="nav-btn" data-section="players">Player Profiles</a>
-            <a href="/matches" class="nav-btn" data-section="games">Match History</a>
-            <a href="/draft-tool" class="nav-btn" data-section="draft">Draft Tool</a>
+            <a href="?page=overview" class="nav-btn active" data-section="overview">Overview</a>
+            <a href="?page=players" class="nav-btn" data-section="players">Player Profiles</a>
+            <a href="?page=matches" class="nav-btn" data-section="games">Match History</a>
+            <a href="?page=draft" class="nav-btn" data-section="draft">Draft Tool</a>
         </nav>
 
         <!-- Overview Section -->
@@ -1564,16 +1564,22 @@
             document.getElementById('matchSummary').textContent = generateMatchSummary(allyChamps, enemyChamps);
         }
 
-        // Routing configuration
-        const routes = {
-            '/': { section: 'overview', title: "LC - Overview" },
-            '/players': { section: 'players', title: "LC - Player Profiles" },
-            '/matches': { section: 'games', title: "LC - Match History" },
-            '/draft-tool': { section: 'draft', title: "LC - Draft Tool" }
+        // Page configuration
+        const pages = {
+            'overview': { section: 'overview', title: "LC - Overview" },
+            'players': { section: 'players', title: "LC - Player Profiles" },
+            'matches': { section: 'games', title: "LC - Match History" },
+            'draft': { section: 'draft', title: "LC - Draft Tool" }
         };
 
-        // Navigation - show section based on route
-        function showSection(sectionId, updateHistory = true) {
+        // Get current page from URL
+        function getCurrentPage() {
+            const params = new URLSearchParams(location.search);
+            return params.get('page') || 'overview';
+        }
+
+        // Navigation - show section
+        function showSection(sectionId, updateUrl = true) {
             // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
@@ -1596,14 +1602,13 @@
                 activeBtn.classList.add('active');
             }
 
-            // Update URL and title if this is a user navigation (not back/forward)
-            if (updateHistory) {
-                const route = Object.entries(routes).find(([path, config]) => config.section === sectionId);
-                if (route) {
-                    const [path, config] = route;
-                    history.pushState({ section: sectionId }, config.title, path);
-                    document.title = config.title;
-                }
+            // Update URL and title
+            if (updateUrl) {
+                const pageKey = Object.keys(pages).find(k => pages[k].section === sectionId) || 'overview';
+                const config = pages[pageKey];
+                const newUrl = pageKey === 'overview' ? location.pathname : `?page=${pageKey}`;
+                history.pushState({ section: sectionId }, config.title, newUrl);
+                document.title = config.title;
             }
 
             // Animate chart bars when overview is shown
@@ -1618,15 +1623,10 @@
 
         // Handle browser back/forward buttons
         window.addEventListener('popstate', (event) => {
-            if (event.state && event.state.section) {
-                showSection(event.state.section, false);
-                document.title = routes[location.pathname]?.title || "LC";
-            } else {
-                // Handle initial state (no state object)
-                const route = routes[location.pathname] || routes['/'];
-                showSection(route.section, false);
-                document.title = route.title;
-            }
+            const pageKey = getCurrentPage();
+            const config = pages[pageKey] || pages['overview'];
+            showSection(config.section, false);
+            document.title = config.title;
         });
 
         // Handle nav link clicks
@@ -1639,22 +1639,11 @@
                 });
             });
 
-            // Check for redirect from 404 page (GitHub Pages SPA workaround)
-            const redirectPath = sessionStorage.getItem('redirectPath');
-            if (redirectPath) {
-                sessionStorage.removeItem('redirectPath');
-                const route = routes[redirectPath] || routes['/'];
-                showSection(route.section, true);
-                document.title = route.title;
-                history.replaceState({ section: route.section }, route.title, redirectPath);
-            } else {
-                // Handle initial page load based on URL
-                const route = routes[location.pathname] || routes['/'];
-                showSection(route.section, false);
-                document.title = route.title;
-                // Replace current history state so back button works correctly
-                history.replaceState({ section: route.section }, route.title, location.pathname);
-            }
+            // Handle initial page load based on URL query param
+            const pageKey = getCurrentPage();
+            const config = pages[pageKey] || pages['overview'];
+            showSection(config.section, false);
+            document.title = config.title;
         });
 
         // Populate games table
