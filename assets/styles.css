@@ -1230,3 +1230,140 @@ footer {
   font-style: italic;
   padding: 2rem;
 }
+
+/* Game Type Filter */
+.filter-container {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 8px;
+}
+
+.filter-label {
+  display: block;
+  font-family: "Orbitron", sans-serif;
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-btn {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-glow);
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent-blue);
+  color: var(--text-primary);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--accent-blue), #078a80);
+  border-color: var(--accent-blue);
+  color: var(--text-primary);
+  box-shadow: 0 0 10px rgba(10, 200, 185, 0.3);
+}
+
+/* Insights Container */
+.insights-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .insights-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.insight-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.insight-title {
+  font-family: "Orbitron", sans-serif;
+  color: var(--accent-gold);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(200, 170, 110, 0.2);
+}
+
+.insight-content {
+  min-height: 100px;
+}
+
+.insight-loading,
+.insight-empty {
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+  padding: 1rem;
+}
+
+.theme-item {
+  margin-bottom: 0.75rem;
+}
+
+.theme-item:last-child {
+  margin-bottom: 0;
+}
+
+.theme-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.theme-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.theme-count {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.theme-bar {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.theme-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.theme-bar-fill.theme-positive {
+  background: linear-gradient(90deg, var(--accent-blue), var(--win-color));
+}
+
+.theme-bar-fill.theme-negative {
+  background: linear-gradient(90deg, var(--accent-purple), var(--loss-color));
+}
