@@ -120,6 +120,51 @@
                 </div>
                 </div>
             </div>
+
+            <!-- Analytics Cards -->
+            <div class="overview-analytics">
+                <div class="analytics-grid-compact">
+                    <!-- Recent Form -->
+                    <div class="analytics-card">
+                        <h3 class="analytics-card-title">Recent Games</h3>
+                        <div class="analytics-card-content" id="recent-form">
+                            <p class="analytics-loading">Loading form...</p>
+                        </div>
+                    </div>
+
+                    <!-- Game Length Analysis -->
+                    <div class="analytics-card">
+                        <h3 class="analytics-card-title">Game Length Breakdown</h3>
+                        <div class="analytics-card-content" id="game-length-analysis">
+                            <p class="analytics-loading">Analyzing games...</p>
+                        </div>
+                    </div>
+
+                    <!-- Win Rate by Comp Type -->
+                    <div class="analytics-card">
+                        <h3 class="analytics-card-title">Win Rate by Comp</h3>
+                        <div class="analytics-card-content" id="winrate-by-comp">
+                            <p class="analytics-loading">Analyzing comps...</p>
+                        </div>
+                    </div>
+
+                    <!-- Champion Pool -->
+                    <div class="analytics-card">
+                        <h3 class="analytics-card-title">Most Played Champions</h3>
+                        <div class="analytics-card-content" id="champion-pool">
+                            <p class="analytics-loading">Analyzing picks...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Trend -->
+                <div class="analytics-card analytics-card-chart">
+                    <h3 class="analytics-card-title">Performance Trend (Last 20 Games)</h3>
+                    <div class="analytics-card-content" id="performance-trend">
+                        <canvas id="performanceTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Players Section -->
@@ -128,6 +173,7 @@
             <div class="players-grid">
                 <div class="player-card" onclick="openPlayerModal('pretzel')">
                     <div class="player-name">LC Pretzel</div>
+                    <a href="https://op.gg/lol/summoners/euw/LC%20Pretzel-boi" target="_blank" class="opgg-link" onclick="event.stopPropagation()">op.gg</a>
                     <div class="champion-section">
                         <div class="champion-label">★ Best Champion</div>
                         <div class="champion-name best">Illaoi</div>
@@ -143,6 +189,7 @@
 
                 <div class="player-card" onclick="openPlayerModal('madness')">
                     <div class="player-name">LC Madness</div>
+                    <a href="https://op.gg/lol/summoners/euw/LC%20Madness-MAD" target="_blank" class="opgg-link" onclick="event.stopPropagation()">op.gg</a>
                     <div class="champion-section">
                         <div class="champion-label">★ Best Champion</div>
                         <div class="champion-name best">Ambessa</div>
@@ -158,6 +205,7 @@
 
                 <div class="player-card" onclick="openPlayerModal('midas')">
                     <div class="player-name">LC Midas</div>
+                    <a href="https://op.gg/lol/summoners/euw/LC%20Midas-1611" target="_blank" class="opgg-link" onclick="event.stopPropagation()">op.gg</a>
                     <div class="champion-section">
                         <div class="champion-label">★ Best Champion</div>
                         <div class="champion-name best">Jhin</div>
@@ -173,6 +221,7 @@
 
                 <div class="player-card" onclick="openPlayerModal('stache')">
                     <div class="player-name">LC Stache</div>
+                    <a href="https://op.gg/lol/summoners/euw/LC%20Stache-1010" target="_blank" class="opgg-link" onclick="event.stopPropagation()">op.gg</a>
                     <div class="champion-section">
                         <div class="champion-label">★ Best Champion</div>
                         <div class="champion-name best">Xerath</div>
@@ -188,6 +237,7 @@
 
                 <div class="player-card" onclick="openPlayerModal('denter')">
                     <div class="player-name">LC Denter</div>
+                    <a href="https://op.gg/lol/summoners/euw/LC%20Denter-EGG" target="_blank" class="opgg-link" onclick="event.stopPropagation()">op.gg</a>
                     <div class="champion-section">
                         <div class="champion-label">★ Best Champion</div>
                         <div class="champion-name best">Zyra</div>
@@ -203,6 +253,7 @@
 
                 <div class="player-card" onclick="openPlayerModal('redsage')">
                     <div class="player-name">LC Red Sage</div>
+                    <a href="https://op.gg/lol/summoners/euw/LC%20Red%20Sage-1337" target="_blank" class="opgg-link" onclick="event.stopPropagation()">op.gg</a>
                     <div class="champion-section">
                         <div class="champion-label">★ Best Champion</div>
                         <div class="champion-name best">Leona</div>
@@ -218,6 +269,7 @@
 
                 <div class="player-card" onclick="openPlayerModal('sheep')">
                     <div class="player-name">LC Sheep</div>
+                    <a href="https://op.gg/lol/summoners/euw/SH4UN%20D4%20SHE33P-EUW" target="_blank" class="opgg-link" onclick="event.stopPropagation()">op.gg</a>
                     <div class="champion-section">
                         <div class="champion-label">★ Best Champion</div>
                         <div class="champion-name best">Garen</div>
@@ -233,6 +285,7 @@
 
                 <div class="player-card" onclick="openPlayerModal('nappeh')">
                     <div class="player-name">LC Nappeh</div>
+                    <a href="https://op.gg/lol/summoners/euw/LC%20Nappeh-Hook" target="_blank" class="opgg-link" onclick="event.stopPropagation()">op.gg</a>
                     <div class="champion-section">
                         <div class="champion-label">★ Best Champion</div>
                         <div class="champion-name best">Blitzcrank</div>
@@ -248,6 +301,7 @@
 
                 <div class="player-card" onclick="openPlayerModal('aurora')">
                     <div class="player-name">LC Aurora</div>
+                    <a href="https://op.gg/lol/summoners/euw/LC%20Aurora-uwu" target="_blank" class="opgg-link" onclick="event.stopPropagation()">op.gg</a>
                     <div class="champion-section">
                         <div class="champion-label">★ Best Champion</div>
                         <div class="champion-name best">Evelynn</div>
@@ -724,6 +778,7 @@
             updateChartValues();
             createLineChart();
             updateReflectionInsights();
+            updateAnalytics();
         }
         window.setGameTypeFilter = setGameTypeFilter;
 
@@ -912,6 +967,309 @@
                 }
             });
         }
+
+        // ===== ANALYTICS FUNCTIONS =====
+        
+        let performanceChartInstance = null;
+
+        // Master analytics update function
+        function updateAnalytics() {
+            const gamesList = getFilteredGames();
+            
+            // Update all analytics with filtered games (even if empty, to show empty states)
+            updateRecentForm(gamesList);
+            updateGameLengthAnalysis(gamesList);
+            updateWinRateByComp(gamesList);
+            updateChampionPool(gamesList);
+            createPerformanceTrendChart(gamesList);
+        }
+
+        // Parse game length string to seconds
+        function parseGameLength(lengthStr) {
+            if (!lengthStr) return 0;
+            const parts = lengthStr.split(':').map(Number);
+            if (parts.length === 2) return parts[0] * 60 + parts[1];
+            if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+            return 0;
+        }
+
+        // Recent games form indicator (up to 20)
+        function updateRecentForm(gamesList) {
+            const container = document.getElementById('recent-form');
+            const recentGames = gamesList.slice(-20).reverse();
+            
+            if (recentGames.length === 0) {
+                container.innerHTML = '<p class="analytics-empty">No games found</p>';
+                return;
+            }
+            
+            // Calculate current streak
+            let currentStreak = 0;
+            let streakType = '';
+            for (let i = 0; i < recentGames.length; i++) {
+                const isWin = recentGames[i].result.toLowerCase() === 'win';
+                if (i === 0) {
+                    streakType = isWin ? 'win' : 'loss';
+                    currentStreak = 1;
+                } else if ((isWin && streakType === 'win') || (!isWin && streakType === 'loss')) {
+                    currentStreak++;
+                } else {
+                    break;
+                }
+            }
+            
+            const streakText = streakType === 'win' ? `${currentStreak} Win Streak` : `${currentStreak} Loss Streak`;
+            const streakClass = streakType === 'win' ? 'streak-win' : 'streak-loss';
+            
+            // Create slots only for available games
+            const slots = recentGames.map(g => {
+                const isWin = g.result.toLowerCase() === 'win';
+                return `
+                    <div class="form-dot ${isWin ? 'win' : 'loss'}" data-date="${g.date}" onclick="navigateToGame('${g.date}')">
+                        <div class="form-tooltip">${g.date}<br>vs ${g.opponent}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = `
+                <div class="form-grid">
+                    ${slots.join('')}
+                </div>
+                <div class="form-streak ${streakClass}">${streakText}</div>
+            `;
+        }
+
+        // Navigate to games table and filter to specific date
+        function navigateToGame(gameDate) {
+            showSection('games');
+            
+            // Wait for section to show then filter the DataTable
+            setTimeout(() => {
+                const tableElement = document.getElementById('gamesTable');
+                if (tableElement && window.jQuery && window.jQuery.fn.dataTable.isDataTable(tableElement)) {
+                    const table = window.jQuery(tableElement).DataTable();
+                    table.search(gameDate).draw();
+                }
+            }, 100);
+        }
+        window.navigateToGame = navigateToGame;
+
+        // Game length breakdown
+        function updateGameLengthAnalysis(gamesList) {
+            const container = document.getElementById('game-length-analysis');
+            const buckets = {
+                'Early (<25m)': { range: [0, 25], wins: 0, total: 0 },
+                'Mid (25-35m)': { range: [25, 35], wins: 0, total: 0 },
+                'Late (35-45m)': { range: [35, 45], wins: 0, total: 0 },
+                'Very Late (>45m)': { range: [45, Infinity], wins: 0, total: 0 }
+            };
+            
+            gamesList.forEach(g => {
+                const seconds = parseGameLength(g.length);
+                if (seconds === 0) return;
+                const mins = seconds / 60;
+                
+                for (const [name, bucket] of Object.entries(buckets)) {
+                    if (mins >= bucket.range[0] && mins < bucket.range[1]) {
+                        bucket.total++;
+                        if (g.result.toLowerCase() === 'win') bucket.wins++;
+                        break;
+                    }
+                }
+            });
+            
+            const maxTotal = Math.max(...Object.values(buckets).map(b => b.total), 1);
+            
+            container.innerHTML = `
+                <div class="length-breakdown">
+                    ${Object.entries(buckets).map(([name, bucket]) => {
+                        const winrate = bucket.total > 0 ? Math.round((bucket.wins / bucket.total) * 100) : 0;
+                        const barWidth = (bucket.total / maxTotal) * 100;
+                        const colorClass = bucket.total === 0 ? 'neutral' : (winrate >= 50 ? 'positive' : 'negative');
+                        return `
+                            <div class="length-row">
+                                <span class="length-label">${name}</span>
+                                <div class="length-bar-container">
+                                    <div class="length-bar ${colorClass}" style="width: ${barWidth}%"></div>
+                                    <span class="length-stats">${bucket.total} games ${bucket.total > 0 ? `(${winrate}% WR)` : ''}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Win rate by comp type
+        function updateWinRateByComp(gamesList) {
+            const container = document.getElementById('winrate-by-comp');
+            const compStats = {};
+            
+            gamesList.forEach(g => {
+                const comp = g.comp_type || 'Unknown';
+                if (!compStats[comp]) compStats[comp] = { wins: 0, total: 0 };
+                compStats[comp].total++;
+                if (g.result.toLowerCase() === 'win') compStats[comp].wins++;
+            });
+            
+            const sorted = Object.entries(compStats)
+                .map(([name, data]) => ({
+                    name,
+                    wins: data.wins,
+                    total: data.total,
+                    winrate: data.wins / data.total
+                }))
+                .sort((a, b) => b.total - a.total);
+            
+            if (sorted.length === 0) {
+                container.innerHTML = '<p class="analytics-empty">No comp data</p>';
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="comp-stats-list">
+                    ${sorted.map(c => {
+                        const colorClass = c.winrate >= 0.5 ? 'positive' : 'negative';
+                        return `
+                            <div class="comp-stat">
+                                <span class="comp-name">${c.name}</span>
+                                <span class="comp-record">${c.wins}W - ${c.total - c.wins}L</span>
+                                <span class="comp-winrate ${colorClass}">${Math.round(c.winrate * 100)}%</span>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Most played champions
+        function updateChampionPool(gamesList) {
+            const container = document.getElementById('champion-pool');
+            const champCount = {};
+            const champWins = {};
+            
+            gamesList.forEach(g => {
+                if (!g.picks) return;
+                // Split picks by common separators
+                const champs = g.picks.split(/[,\/\-\|]/).map(c => c.trim()).filter(Boolean);
+                const isWin = g.result.toLowerCase() === 'win';
+                
+                champs.forEach(champ => {
+                    champCount[champ] = (champCount[champ] || 0) + 1;
+                    if (isWin) champWins[champ] = (champWins[champ] || 0) + 1;
+                });
+            });
+            
+            const sorted = Object.entries(champCount)
+                .map(([name, count]) => ({
+                    name,
+                    count,
+                    wins: champWins[name] || 0,
+                    winrate: (champWins[name] || 0) / count
+                }))
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 5);
+            
+            if (sorted.length === 0) {
+                container.innerHTML = '<p class="analytics-empty">No champion data</p>';
+                return;
+            }
+            
+            const maxCount = sorted[0].count;
+            
+            container.innerHTML = `
+                <div class="champ-stats-list">
+                    ${sorted.map(c => {
+                        const losses = c.count - c.wins;
+                        const colorClass = c.winrate >= 0.5 ? 'positive' : 'negative';
+                        return `
+                            <div class="champ-stat">
+                                <span class="champ-name">${c.name}</span>
+                                <span class="champ-record">${c.wins}W - ${losses}L</span>
+                                <span class="champ-winrate ${colorClass}">${Math.round(c.winrate * 100)}%</span>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Performance trend chart (last 20 games gold diff)
+        function createPerformanceTrendChart(gamesList) {
+            const ctx = document.getElementById('performanceTrendChart');
+            if (!ctx) return;
+            
+            // Destroy existing chart
+            if (performanceChartInstance) {
+                performanceChartInstance.destroy();
+            }
+            
+            const last20 = gamesList.slice(-20);
+            if (last20.length === 0) return;
+            
+            const labels = last20.map((g, i) => `#${i + 1}`);
+            const goldData = last20.map(g => g.gold_20 || 0);
+            const resultColors = last20.map(g => 
+                g.result.toLowerCase() === 'win' ? 'rgba(0, 204, 153, 0.8)' : 'rgba(231, 60, 60, 0.8)'
+            );
+            
+            performanceChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Gold Diff @20',
+                        data: goldData,
+                        backgroundColor: resultColors,
+                        borderColor: resultColors.map(c => c.replace('0.8', '1')),
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (items) => {
+                                    const idx = items[0].dataIndex;
+                                    return `${last20[idx].date} vs ${last20[idx].opponent}`;
+                                },
+                                label: (item) => {
+                                    const val = item.raw;
+                                    const result = last20[item.dataIndex].result;
+                                    return `Gold @20: ${val > 0 ? '+' : ''}${val} (${result})`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                color: '#a09b8c',
+                                font: { family: "'Rajdhani', sans-serif", size: 11 },
+                                callback: (val) => (val > 0 ? '+' : '') + (val / 1000).toFixed(0) + 'k'
+                            },
+                            grid: { color: 'rgba(200, 170, 110, 0.1)' }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#a09b8c',
+                                font: { family: "'Rajdhani', sans-serif", size: 10 },
+                                maxRotation: 0,
+                                minRotation: 0
+                            },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ===== END ANALYTICS FUNCTIONS =====
 
         // Create line chart
         let lineChartInstance = null;
@@ -1178,7 +1536,7 @@
         }
 
         // Handle browser back/forward buttons
-        window.addEventListener('popstate', (event) => {z
+        window.addEventListener('popstate', (event) => {
             if (event.state && event.state.section) {
                 showSection(event.state.section, false);
                 document.title = routes[location.pathname]?.title || "LC";
@@ -1400,6 +1758,7 @@
                     populateGamesTable();
                     updateChartValues();
                     createLineChart(); // Recreate line chart with new data
+                    updateAnalytics(); // Update analytics section
                     
                     // Hide chart loading and show content
                     document.getElementById('chart-loading').style.display = 'none';
