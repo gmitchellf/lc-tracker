@@ -883,25 +883,34 @@
         // Update chart with calculated values
         function updateChartValues() {
             const averages = calculateGoldAverages();
-            const maxValue = Math.max(...Object.values(averages).map(Math.abs)) || 1;
+            // Only consider non-zero values for max calculation
+            const nonZeroValues = Object.values(averages).filter(v => v !== 0);
+            const maxValue = nonZeroValues.length > 0 ? Math.max(...nonZeroValues.map(Math.abs)) : 1;
 
             const chartBars = document.querySelectorAll('.chart-bar');
             const keys = ['gold_10', 'gold_20', 'gold_30', 'gold_40', 'gold_50'];
 
             chartBars.forEach((bar, index) => {
                 const barValue = averages[keys[index]];
-                const isNegative = barValue < 0;
-                const height = (Math.abs(barValue) / maxValue) * 100;
                 const barFill = bar.querySelector('.bar-fill');
                 const barValueEl = bar.querySelector('.bar-value');
-
-                barFill.dataset.height = height;
-                barFill.style.background = isNegative 
-                    ? 'linear-gradient(180deg, var(--loss-color), var(--accent-purple))'
-                    : 'linear-gradient(180deg, var(--accent-blue), var(--accent-gold))';
                 
-                barValueEl.textContent = barValue > 0 ? '+' + barValue : barValue;
-                barValueEl.style.color = isNegative ? 'var(--loss-color)' : 'var(--win-color)';
+                // Hide bar if value is 0 (no data for this timestamp)
+                if (barValue === 0) {
+                    bar.style.display = 'none';
+                } else {
+                    bar.style.display = '';
+                    const isNegative = barValue < 0;
+                    const height = (Math.abs(barValue) / maxValue) * 100;
+
+                    barFill.dataset.height = height;
+                    barFill.style.background = isNegative 
+                        ? 'linear-gradient(180deg, var(--loss-color), var(--accent-purple))'
+                        : 'linear-gradient(180deg, var(--accent-blue), var(--accent-gold))';
+                    
+                    barValueEl.textContent = barValue > 0 ? '+' + barValue : barValue;
+                    barValueEl.style.color = isNegative ? 'var(--loss-color)' : 'var(--win-color)';
+                }
             });
         }
 
@@ -922,7 +931,10 @@
             lineChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['@10', '@20', '@30', '@40', '@50'],
+                    labels: ['@10', '@20', '@30', '@40', '@50'].filter((_, i) => {
+                        const keys = ['gold_10', 'gold_20', 'gold_30', 'gold_40', 'gold_50'];
+                        return averages[keys[i]] !== 0;
+                    }),
                     datasets: [{
                         label: 'Average Gold Difference',
                         data: [
@@ -931,7 +943,7 @@
                             averages.gold_30,
                             averages.gold_40,
                             averages.gold_50
-                        ],
+                        ].filter(v => v !== 0),
                         borderColor: '#0ac8b9',
                         backgroundColor: 'rgba(10, 200, 185, 0.1)',
                         borderWidth: 3,
