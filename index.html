@@ -1950,18 +1950,6 @@
 
         // Calculate and display favoured positions from reflections
         function updateFavouredPositions() {
-            const playerRoles = {};
-            
-            // Count roles per player from reflections
-            (window.reflections || []).forEach(r => {
-                const player = r.playerName?.trim();
-                const role = r.role?.toLowerCase().trim();
-                if (!player || !role) return;
-                
-                if (!playerRoles[player]) playerRoles[player] = {};
-                playerRoles[player][role] = (playerRoles[player][role] || 0) + 1;
-            });
-            
             // Map role names to icon files and display names
             const roleMap = {
                 'top': { icon: 'Top_icon.png', name: 'Top' },
@@ -1975,6 +1963,37 @@
                 'support': { icon: 'Support_icon.png', name: 'Support' },
                 'supp': { icon: 'Support_icon.png', name: 'Support' }
             };
+            
+            // Helper to check if a reflection playerName matches a card player
+            // Matches: "LC Midas" matches "alex/lc midas", "LC Midas", "Midas", etc.
+            const playerMatches = (reflectionPlayer, cardPlayer) => {
+                const refLower = reflectionPlayer.toLowerCase();
+                const cardLower = cardPlayer.toLowerCase();
+                
+                // Extract the name without "LC " prefix
+                const cardName = cardLower.replace(/^lc\s+/, '');
+                
+                // Check if reflection contains the card name (without LC)
+                // This matches "alex/lc midas" containing "midas"
+                return refLower.includes(cardName);
+            };
+            
+            // Count roles per player from reflections
+            const playerRoles = {};
+            document.querySelectorAll('.lane-icons[data-player]').forEach(container => {
+                const cardPlayer = container.dataset.player;
+                playerRoles[cardPlayer] = {};
+                
+                (window.reflections || []).forEach(r => {
+                    const refPlayer = r.playerName?.trim();
+                    const role = r.role?.toLowerCase().trim();
+                    if (!refPlayer || !role) return;
+                    
+                    if (playerMatches(refPlayer, cardPlayer)) {
+                        playerRoles[cardPlayer][role] = (playerRoles[cardPlayer][role] || 0) + 1;
+                    }
+                });
+            });
             
             // Update each player card
             document.querySelectorAll('.lane-icons[data-player]').forEach(container => {
