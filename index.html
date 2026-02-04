@@ -758,9 +758,6 @@
             const filteredGames = getFilteredGames();
             const gameDates = filteredGames.map(g => g.date);
             
-            console.log('[Debug] Game dates:', gameDates);
-            console.log('[Debug] Reflection dates:', (window.reflections || []).map(r => r.gameDate));
-            
             return (window.reflections || []).filter(r => gameDates.includes(r.gameDate));
         }
 
