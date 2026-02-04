@@ -6,6 +6,8 @@
     <title>Leona's Chairs - Team Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -15,7 +17,6 @@
         <header>
             <img src="assets/lclogo.webp" alt="Leona's Chairs Logo" class="logo-image">
             <div class="team-logo">Leona's Chairs</div>
-            <div class="team-subtitle">LC Gaming</div>
             <div class="motto">"He's a pig, but he's not quite John Pork. / Sit on me Grimy L"</div>
         </header>
 
@@ -48,12 +49,12 @@
             </div>
 
             <div class="gold-diff-chart">
-                <h2 class="chart-title">Average Gold Difference @ Time</h2>
+                <h2 class="chart-title">Average Gold Diff / Game Time</h2>
                 
                 <!-- Chart loading state -->
                 <div id="chart-loading" class="chart-loading">
                     <div class="draft-spinner"></div>
-                    <p>Loading game statistics...</p>
+                    <p>Loading stats...</p>
                 </div>
                 
                 <div id="chart-content" style="display: none;">
@@ -63,27 +64,27 @@
                     <div class="chart-bars">
                     <div class="chart-bar">
                         <div class="bar-fill" style="height: 0%;" data-height="10"></div>
-                        <div class="bar-label">@10</div>
+                        <div class="bar-label">10min</div>
                         <div class="bar-value">—</div>
                     </div>
                     <div class="chart-bar">
                         <div class="bar-fill" style="height: 0%;" data-height="60"></div>
-                        <div class="bar-label">@20</div>
+                        <div class="bar-label">20min</div>
                         <div class="bar-value">—</div>
                     </div>
                     <div class="chart-bar">
                         <div class="bar-fill" style="height: 0%;" data-height="100"></div>
-                        <div class="bar-label">@30</div>
+                        <div class="bar-label">30min</div>
                         <div class="bar-value">—</div>
                     </div>
                     <div class="chart-bar">
                         <div class="bar-fill" style="height: 0%;" data-height="55"></div>
-                        <div class="bar-label">@40</div>
+                        <div class="bar-label">40min/div>
                         <div class="bar-value">—</div>
                     </div>
                     <div class="chart-bar">
                         <div class="bar-fill" style="height: 0%;" data-height="15"></div>
-                        <div class="bar-label">@50</div>
+                        <div class="bar-label">50min</div>
                         <div class="bar-value">—</div>
                     </div>
                 </div>
@@ -245,17 +246,18 @@
         <!-- Games Section -->
         <section id="games" class="section">
             <h2 class="section-title">Match History</h2>
-            <table class="games-table">
+            <div class="table-shell">
+                <table id="gamesTable" class="games-table display nowrap" style="width: 100%">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Opponent</th>
-                        <th>Comp</th>
-                        <th>Team Picks</th>
-                        <th>Result</th>
-                        <th>@20 Gold</th>
-                        <th>Length</th>
+                        <th data-priority="1">Date</th>
+                        <th data-priority="4">Type</th>
+                        <th data-priority="2">Opponent</th>
+                        <th data-priority="5">Comp</th>
+                        <th data-priority="8">Team Picks</th>
+                        <th data-priority="3">Result</th>
+                        <th data-priority="6">@20 Gold</th>
+                        <th data-priority="7">Length</th>
                     </tr>
                 </thead>
                 <tbody id="gamesTableBody">
@@ -269,6 +271,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </section>
 
         <!-- Draft Tool Section -->
@@ -387,6 +390,9 @@
         </footer>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script>
         // Player detailed information
         const playerData = {
@@ -836,6 +842,10 @@
         function populateGamesTable() {
             const tbody = document.getElementById('gamesTableBody');
             if (!tbody) return;
+            const tableElement = document.getElementById('gamesTable');
+            if (tableElement && window.jQuery && window.jQuery.fn.dataTable.isDataTable(tableElement)) {
+                window.jQuery(tableElement).DataTable().destroy();
+            }
             const gamesList = Array.isArray(window.games) ? window.games : (Array.isArray(games) ? games : []);
             tbody.innerHTML = '';
 
@@ -864,6 +874,52 @@
                 `;
                 tbody.appendChild(row);
             });
+
+            initGamesDataTable();
+            console.log('Table populated with ' + gamesList.length + ' rows');
+        }
+
+        function initGamesDataTable() {
+            const tableElement = document.getElementById('gamesTable');
+            if (!tableElement || !window.jQuery) return;
+            const $table = window.jQuery(tableElement);
+
+            if (window.jQuery.fn.dataTable.isDataTable(tableElement)) {
+                $table.DataTable().destroy();
+            }
+
+            $table.DataTable({
+                responsive: {
+                    details: {
+                        type: 'inline'
+                    },
+                    breakpoints: [
+                        { name: 'desktop', width: Infinity },
+                        { name: 'laptop', width: 1400 },
+                        { name: 'tablet', width: 1024 },
+                        { name: 'mobile', width: 768 },
+                        { name: 'tiny', width: 480 }
+                    ]
+                },
+                pageLength: 10,
+                lengthChange: false,
+                autoWidth: false,
+                order: [[0, 'desc']],
+                language: {
+                    search: 'Search matches:',
+                    emptyTable: 'No matches available.'
+                },
+                columnDefs: [
+                    { responsivePriority: 1, targets: 0, className: 'all' },
+                    { responsivePriority: 2, targets: 1, className: 'all' },
+                    { responsivePriority: 3, targets: 3, className: 'all' },
+                    { responsivePriority: 4, targets: 5, className: 'all' },
+                    { responsivePriority: 5, targets: 2, className: 'min-tablet' },
+                    { responsivePriority: 6, targets: 6, className: 'min-tablet' },
+                    { responsivePriority: 7, targets: 7, className: 'min-tablet' },
+                    { responsivePriority: 8, targets: 4, className: 'min-desktop' }
+                ]
+            });
         }
 
         // Google Sheets web app URL — paste your deployed Apps Script Web App URL here
@@ -879,6 +935,52 @@
 
 
                 // Map games
+                const formatGameLength = (raw) => {
+                    if (raw === null || raw === undefined || raw === '') return '';
+
+                    const formatFromHMS = (hours, minutes, seconds) => {
+                        if (hours > 0) {
+                            return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                        }
+                        return `${minutes}:${String(seconds).padStart(2, '0')}`;
+                    };
+
+                    if (typeof raw === 'number' && !Number.isNaN(raw)) {
+                        const totalSeconds = Math.round(raw * 86400);
+                        const hours = Math.floor(totalSeconds / 3600);
+                        const minutes = Math.floor((totalSeconds % 3600) / 60);
+                        const seconds = totalSeconds % 60;
+                        return formatFromHMS(hours, minutes, seconds);
+                    }
+
+                    if (raw instanceof Date && !isNaN(raw)) {
+                        const hours = raw.getUTCHours();
+                        const minutes = raw.getUTCMinutes();
+                        const seconds = raw.getUTCSeconds();
+                        return formatFromHMS(hours, minutes, seconds);
+                    }
+
+                    const str = String(raw).trim();
+                    if (!str) return '';
+                    const timeMatch = str.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?$/);
+                    if (timeMatch) {
+                        const hours = Number(timeMatch[1] || 0);
+                        const minutes = Number(timeMatch[2] || 0);
+                        const seconds = Number(timeMatch[3] || 0);
+                        return formatFromHMS(hours, minutes, seconds);
+                    }
+
+                    const dateCandidate = new Date(str);
+                    if (!isNaN(dateCandidate)) {
+                        const hours = dateCandidate.getUTCHours();
+                        const minutes = dateCandidate.getUTCMinutes();
+                        const seconds = dateCandidate.getUTCSeconds();
+                        return formatFromHMS(hours, minutes, seconds);
+                    }
+
+                    return str;
+                };
+
                 if (Array.isArray(data.games) && data.games.length) {
                     window.games = data.games
                         .filter(g => g.Date || g.date) // Only include rows with dates
@@ -905,7 +1007,7 @@
                                 gold_30: Number(g['Gold Diff @ 30'] || g.gold_30 || g.gold30 || 0),
                                 gold_40: Number(g['Gold Diff @ 40'] || g.gold_40 || g.gold40 || 0),
                                 gold_50: Number(g['Gold Diff @ 50'] || g.gold_50 || g.gold50 || 0),
-                                length: g['Game Length'] || g.length || g.Length || ''
+                                length: formatGameLength(g['Game Length'] || g.length || g.Length || '')
                             };
                         });
 

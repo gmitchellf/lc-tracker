@@ -464,6 +464,94 @@ nav {
 }
 
 /* Games Table */
+.table-shell {
+  width: 100%;
+  overflow-x: auto;
+  padding: 0.5rem 0 1rem;
+}
+
+.table-shell .dataTables_wrapper {
+  width: 100%;
+}
+
+.table-shell .dataTables_filter {
+  margin-bottom: 1rem;
+}
+
+.table-shell .dataTables_filter label {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.table-shell .dataTables_filter input {
+  margin-left: 0.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glow);
+  color: var(--text-primary);
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+}
+
+.table-shell .dataTables_filter input:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(200, 170, 110, 0.3);
+}
+
+.table-shell .dataTables_info {
+  color: var(--text-secondary);
+  padding-top: 0.75rem;
+}
+
+.table-shell .dataTables_paginate {
+  padding-top: 0.75rem;
+}
+
+.table-shell .dataTables_paginate .paginate_button {
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-glow) !important;
+  background: var(--bg-card) !important;
+  margin: 0 0.25rem;
+  border-radius: 4px;
+  padding: 0.3rem 0.7rem;
+  transition: all 0.2s ease;
+}
+
+.table-shell .dataTables_paginate .paginate_button:hover {
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 12px rgba(200, 170, 110, 0.2);
+}
+
+.table-shell .dataTables_paginate .paginate_button.current,
+.table-shell .dataTables_paginate .paginate_button.current:hover {
+  background: linear-gradient(
+    135deg,
+    var(--accent-gold) 0%,
+    var(--accent-blue) 100%
+  ) !important;
+  color: var(--bg-dark) !important;
+  border-color: transparent !important;
+}
+
+.table-shell .dataTables_paginate .paginate_button.disabled {
+  opacity: 0.4;
+  cursor: not-allowed !important;
+}
+
+.table-shell table.dataTable tbody tr.child td {
+  background: rgba(10, 25, 41, 0.7);
+  border-top: 1px solid rgba(200, 170, 110, 0.12);
+}
+
+.table-shell table.dataTable tbody tr.child ul.dtr-details {
+  width: 100%;
+}
+
+.table-shell table.dataTable tbody tr.child .dtr-title {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
 .games-table {
   width: 100%;
   margin: 2rem 0;
@@ -493,7 +581,6 @@ nav {
 }
 
 .games-table tbody tr:hover {
-  transform: translateX(5px);
   box-shadow: 0 5px 20px rgba(200, 170, 110, 0.2);
 }
 
