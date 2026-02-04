@@ -7,7 +7,7 @@
     <link rel="icon" type="image/webp" href="assets/lclogo.webp">
     <link rel="apple-touch-icon" href="assets/lclogo.webp">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,7 +17,7 @@
     
     <div class="container">
         <header>
-            <img src="assets/lclogo.webp" alt="LC Logo" class="logo-image">
+            <img src="/assets/lclogo.webp" alt="LC Logo" class="logo-image">
             <div class="team-logo">Leona's Chairs</div>
             <div class="motto">"He's a pig, but he's not quite John Pork. / Sit on me Grimy L"</div>
         </header>
@@ -784,7 +784,7 @@
                     
                     const roleIcon = getRoleIcon(r.role);
                     const roleHtml = roleIcon 
-                        ? `<div class="reflection-role-icon" title="${r.role}"><img src="assets/icons/${roleIcon}" alt="${r.role}"></div>`
+                        ? `<div class="reflection-role-icon" title="${r.role}"><img src="/assets/icons/${roleIcon}" alt="${r.role}"></div>`
                         : '';
                     
                     return `
@@ -1639,12 +1639,22 @@
                 });
             });
 
-            // Handle initial page load based on URL
-            const route = routes[location.pathname] || routes['/'];
-            showSection(route.section, false);
-            document.title = route.title;
-            // Replace current history state so back button works correctly
-            history.replaceState({ section: route.section }, route.title, location.pathname);
+            // Check for redirect from 404 page (GitHub Pages SPA workaround)
+            const redirectPath = sessionStorage.getItem('redirectPath');
+            if (redirectPath) {
+                sessionStorage.removeItem('redirectPath');
+                const route = routes[redirectPath] || routes['/'];
+                showSection(route.section, true);
+                document.title = route.title;
+                history.replaceState({ section: route.section }, route.title, redirectPath);
+            } else {
+                // Handle initial page load based on URL
+                const route = routes[location.pathname] || routes['/'];
+                showSection(route.section, false);
+                document.title = route.title;
+                // Replace current history state so back button works correctly
+                history.replaceState({ section: route.section }, route.title, location.pathname);
+            }
         });
 
         // Populate games table
@@ -2029,7 +2039,7 @@
                 const iconsHtml = top2.map(([roleName, count]) => {
                     const roleKey = Object.keys(roleMap).find(k => roleMap[k].name === roleName);
                     const icon = roleMap[roleKey]?.icon || '';
-                    return `<img src="assets/icons/${icon}" alt="${roleName}" title="${roleName} - ${count} games">`;
+                    return `<img src="/assets/icons/${icon}" alt="${roleName}" title="${roleName} - ${count} games">`;
                 }).join('');
                 
                 container.innerHTML = iconsHtml;
