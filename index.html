@@ -169,9 +169,20 @@
 
         <!-- Players Section -->
         <section id="players" class="section">
-            <h2 class="section-title">Champion Pools</h2>
-            <div class="players-grid">
+            <h2 class="section-title">Players Profiles</h2>
+            
+            <!-- Players loading state -->
+            <div id="players-loading" class="players-loading">
+                <div class="draft-spinner"></div>
+                <p>Loading player profiles...</p>
+            </div>
+            
+            <div class="players-grid" id="players-grid" style="display: none;">
                 <div class="player-card" onclick="openPlayerModal('sheep')">
+                    <div class="player-rank-container">
+                        <span class="player-rank-label">Solo/Duo Rank</span>
+                        <div class="player-rank" data-player-key="sheep">—</div>
+                    </div>
                     <div class="player-name">LC Sheep</div>
                     <div class="favoured-lanes">
                         <span class="lanes-label">Favoured Positions</span>
@@ -183,20 +194,22 @@
                         <a href="https://op.gg/lol/summoners/euw/SH4UN%20D4%20SHE33P-EUW" target="_blank" class="profile-link" onclick="event.stopPropagation()">op.gg</a>
                         <a href="https://rewind.lol/user.html?username=SH4UN%20D4%20SHE33P%23EUW&region=EUW&year=2026" target="_blank" class="profile-link" onclick="event.stopPropagation()">rewind</a>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="best" data-player-key="sheep">
                         <div class="champion-label">★ Best Champion</div>
-                        <div class="champion-name best">Garen</div>
+                        <div class="champion-name best">—</div>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="comfort" data-player-key="sheep">
                         <div class="champion-label">Comfort Picks</div>
-                        <div class="champion-name">Cho'Gath</div>
-                        <div class="champion-name">Sion</div>
-                        <div class="champion-name">Dr. Mundo</div>
+                        <div class="champion-name">—</div>
                     </div>
                     <div class="card-footer">Click for more info</div>
                 </div>
 
                 <div class="player-card" onclick="openPlayerModal('madness')">
+                    <div class="player-rank-container">
+                        <span class="player-rank-label">Solo/Duo Rank</span>
+                        <div class="player-rank" data-player-key="madness">—</div>
+                    </div>
                     <div class="player-name">LC Madness</div>
                     <div class="favoured-lanes">
                         <span class="lanes-label">Favoured Positions</span>
@@ -208,20 +221,22 @@
                         <a href="https://op.gg/lol/summoners/euw/LC%20Madness-MAD" target="_blank" class="profile-link" onclick="event.stopPropagation()">op.gg</a>
                         <a href="https://rewind.lol/user.html?username=LC%20Madness%23MAD&region=EUW&year=2026" target="_blank" class="profile-link" onclick="event.stopPropagation()">rewind</a>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="best" data-player-key="madness">
                         <div class="champion-label">★ Best Champion</div>
-                        <div class="champion-name best">Ambessa</div>
+                        <div class="champion-name best">—</div>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="comfort" data-player-key="madness">
                         <div class="champion-label">Comfort Picks</div>
-                        <div class="champion-name">Dr. Mundo</div>
-                        <div class="champion-name">Sylas</div>
-                        <div class="champion-name">Volibear</div>
+                        <div class="champion-name">—</div>
                     </div>
                     <div class="card-footer">Click for more info</div>
                 </div>
 
                 <div class="player-card" onclick="openPlayerModal('stache')">
+                    <div class="player-rank-container">
+                        <span class="player-rank-label">Solo/Duo Rank</span>
+                        <div class="player-rank" data-player-key="stache">—</div>
+                    </div>
                     <div class="player-name">LC Stache</div>
                     <div class="favoured-lanes">
                         <span class="lanes-label">Favoured Positions</span>
@@ -233,20 +248,22 @@
                         <a href="https://op.gg/lol/summoners/euw/LC%20Stache-1010" target="_blank" class="profile-link" onclick="event.stopPropagation()">op.gg</a>
                         <a href="https://rewind.lol/user.html?username=LC%20Stache%231010&region=EUW&year=2026" target="_blank" class="profile-link" onclick="event.stopPropagation()">rewind</a>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="best" data-player-key="stache">
                         <div class="champion-label">★ Best Champion</div>
-                        <div class="champion-name best">Xerath</div>
+                        <div class="champion-name best">—</div>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="comfort" data-player-key="stache">
                         <div class="champion-label">Comfort Picks</div>
-                        <div class="champion-name">Veigar</div>
-                        <div class="champion-name">Galio</div>
-                        <div class="champion-name">Mel</div>
+                        <div class="champion-name">—</div>
                     </div>
                     <div class="card-footer">Click for more info</div>
                 </div>
 
                 <div class="player-card" onclick="openPlayerModal('nappeh')">
+                    <div class="player-rank-container">
+                        <span class="player-rank-label">Solo/Duo Rank</span>
+                        <div class="player-rank" data-player-key="nappeh">—</div>
+                    </div>
                     <div class="player-name">LC Nappeh</div>
                     <div class="favoured-lanes">
                         <span class="lanes-label">Favoured Positions</span>
@@ -258,20 +275,22 @@
                         <a href="https://op.gg/lol/summoners/euw/LC%20Nappeh-Hook" target="_blank" class="profile-link" onclick="event.stopPropagation()">op.gg</a>
                         <a href="https://rewind.lol/user.html?username=LC%20Nappeh%23Hook&region=EUW&year=2026" target="_blank" class="profile-link" onclick="event.stopPropagation()">rewind</a>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="best" data-player-key="nappeh">
                         <div class="champion-label">★ Best Champion</div>
-                        <div class="champion-name best">Blitzcrank</div>
+                        <div class="champion-name best">—</div>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="comfort" data-player-key="nappeh">
                         <div class="champion-label">Comfort Picks</div>
-                        <div class="champion-name">Renekton</div>
-                        <div class="champion-name">Braum</div>
-                        <div class="champion-name">Shen</div>
+                        <div class="champion-name">—</div>
                     </div>
                     <div class="card-footer">Click for more info</div>
                 </div>
 
                 <div class="player-card" onclick="openPlayerModal('midas')">
+                    <div class="player-rank-container">
+                        <span class="player-rank-label">Solo/Duo Rank</span>
+                        <div class="player-rank" data-player-key="midas">—</div>
+                    </div>
                     <div class="player-name">LC Midas</div>
                     <div class="favoured-lanes">
                         <span class="lanes-label">Favoured Positions</span>
@@ -283,20 +302,22 @@
                         <a href="https://op.gg/lol/summoners/euw/LC%20Midas-1611" target="_blank" class="profile-link" onclick="event.stopPropagation()">op.gg</a>
                         <a href="https://rewind.lol/user.html?username=LC%20Midas%231611&region=EUW&year=2026" target="_blank" class="profile-link" onclick="event.stopPropagation()">rewind</a>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="best" data-player-key="midas">
                         <div class="champion-label">★ Best Champion</div>
-                        <div class="champion-name best">Jhin</div>
+                        <div class="champion-name best">—</div>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="comfort" data-player-key="midas">
                         <div class="champion-label">Comfort Picks</div>
-                        <div class="champion-name">Jinx</div>
-                        <div class="champion-name">Caitlyn</div>
-                        <div class="champion-name">Miss Fortune</div>
+                        <div class="champion-name">—</div>
                     </div>
                     <div class="card-footer">Click for more info</div>
                 </div>
 
                 <div class="player-card" onclick="openPlayerModal('pretzel')">
+                    <div class="player-rank-container">
+                        <span class="player-rank-label">Solo/Duo Rank</span>
+                        <div class="player-rank" data-player-key="pretzel">—</div>
+                    </div>
                     <div class="player-name">LC Pretzel</div>
                     <div class="favoured-lanes">
                         <span class="lanes-label">Favoured Positions</span>
@@ -308,20 +329,22 @@
                         <a href="https://op.gg/lol/summoners/euw/LC%20Pretzel-boi" target="_blank" class="profile-link" onclick="event.stopPropagation()">op.gg</a>
                         <a href="https://rewind.lol/user.html?username=LC%20Pretzel%23boi&region=EUW&year=2026" target="_blank" class="profile-link" onclick="event.stopPropagation()">rewind</a>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="best" data-player-key="pretzel">
                         <div class="champion-label">★ Best Champion</div>
-                        <div class="champion-name best">Illaoi</div>
+                        <div class="champion-name best">—</div>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="comfort" data-player-key="pretzel">
                         <div class="champion-label">Comfort Picks</div>
-                        <div class="champion-name">Tahm Kench</div>
-                        <div class="champion-name">Yorick</div>
-                        <div class="champion-name">Heimerdinger</div>
+                        <div class="champion-name">—</div>
                     </div>
                     <div class="card-footer">Click for more info</div>
                 </div>
 
                 <div class="player-card" onclick="openPlayerModal('denter')">
+                    <div class="player-rank-container">
+                        <span class="player-rank-label">Solo/Duo Rank</span>
+                        <div class="player-rank" data-player-key="denter">—</div>
+                    </div>
                     <div class="player-name">LC Denter</div>
                     <div class="favoured-lanes">
                         <span class="lanes-label">Favoured Positions</span>
@@ -333,65 +356,13 @@
                         <a href="https://op.gg/lol/summoners/euw/LC%20Denter-EGG" target="_blank" class="profile-link" onclick="event.stopPropagation()">op.gg</a>
                         <a href="https://rewind.lol/user.html?username=LC%20Denter%23EGG&region=EUW&year=2026" target="_blank" class="profile-link" onclick="event.stopPropagation()">rewind</a>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="best" data-player-key="denter">
                         <div class="champion-label">★ Best Champion</div>
-                        <div class="champion-name best">Zyra</div>
+                        <div class="champion-name best">—</div>
                     </div>
-                    <div class="champion-section">
+                    <div class="champion-section" data-champ-type="comfort" data-player-key="denter">
                         <div class="champion-label">Comfort Picks</div>
-                        <div class="champion-name">Galio</div>
-                        <div class="champion-name">Lux</div>
-                        <div class="champion-name">Braum</div>
-                    </div>
-                    <div class="card-footer">Click for more info</div>
-                </div>
-
-                <div class="player-card" onclick="openPlayerModal('aurora')">
-                    <div class="player-name">LC Aurora</div>
-                    <div class="favoured-lanes">
-                        <span class="lanes-label">Favoured Positions</span>
-                        <div class="lane-icons" data-player="LC Aurora">
-                            <span class="lanes-loading">Loading...</span>
-                        </div>
-                    </div>
-                    <div class="profile-links">
-                        <a href="https://op.gg/lol/summoners/euw/LC%20Aurora-uwu" target="_blank" class="profile-link" onclick="event.stopPropagation()">op.gg</a>
-                        <a href="https://rewind.lol/user.html?username=LC%20Aurora%23uwu&region=EUW&year=2026" target="_blank" class="profile-link" onclick="event.stopPropagation()">rewind</a>
-                    </div>
-                    <div class="champion-section">
-                        <div class="champion-label">★ Best Champion</div>
-                        <div class="champion-name best">Evelynn</div>
-                    </div>
-                    <div class="champion-section">
-                        <div class="champion-label">Comfort Picks</div>
-                        <div class="champion-name">Seraphine</div>
-                        <div class="champion-name">Caitlyn</div>
-                        <div class="champion-name">Neeko</div>
-                    </div>
-                    <div class="card-footer">Click for more info</div>
-                </div>
-
-                <div class="player-card" onclick="openPlayerModal('redsage')">
-                    <div class="player-name">LC Red Sage</div>
-                    <div class="favoured-lanes">
-                        <span class="lanes-label">Favoured Positions</span>
-                        <div class="lane-icons" data-player="LC Red Sage">
-                            <span class="lanes-loading">Loading...</span>
-                        </div>
-                    </div>
-                    <div class="profile-links">
-                        <a href="https://op.gg/lol/summoners/euw/LC%20Red%20Sage-1337" target="_blank" class="profile-link" onclick="event.stopPropagation()">op.gg</a>
-                        <a href="https://rewind.lol/user.html?username=LC%20Red%20Sage%231337&region=EUW&year=2026" target="_blank" class="profile-link" onclick="event.stopPropagation()">rewind</a>
-                    </div>
-                    <div class="champion-section">
-                        <div class="champion-label">★ Best Champion</div>
-                        <div class="champion-name best">Leona</div>
-                    </div>
-                    <div class="champion-section">
-                        <div class="champion-label">Comfort Picks</div>
-                        <div class="champion-name">Nami</div>
-                        <div class="champion-name">Sona</div>
-                        <div class="champion-name">Janna</div>
+                        <div class="champion-name">—</div>
                     </div>
                     <div class="card-footer">Click for more info</div>
                 </div>
@@ -587,10 +558,6 @@
                 <h2>${player.name}</h2>
                 <div class="player-detail-grid">
                     <div class="detail-item">
-                        <span class="detail-label">Rank:</span>
-                        <span class="detail-value">${player.rank || '—'}</span>
-                    </div>
-                    <div class="detail-item">
                         <span class="detail-label">Roles:</span>
                         <span class="detail-value">${player.roles || '—'}</span>
                     </div>
@@ -654,6 +621,65 @@
                     weakness: String(p['Weakness'] || '').trim(),
                     notes: String(p['Notes'] || '').trim()
                 };
+            });
+            
+            // Update rank badges on player cards
+            updatePlayerRanks();
+            
+            // Show player grid, hide loading
+            document.getElementById('players-loading').style.display = 'none';
+            document.getElementById('players-grid').style.display = 'grid';
+        }
+        
+        // Update rank badges on player cards
+        function updatePlayerRanks() {
+            document.querySelectorAll('.player-rank[data-player-key]').forEach(badge => {
+                const key = badge.dataset.playerKey;
+                const player = playerData[key];
+                if (player && player.rank) {
+                    badge.textContent = player.rank;
+                }
+            });
+        }
+        
+        // Store player champion data from Tourney Prep
+        let playerChamps = {};
+        
+        // Process player champion data from Tourney Prep sheet
+        function processPlayerChamps(champsData) {
+            if (!champsData) return;
+            playerChamps = champsData;
+            
+            // Update best champion sections
+            document.querySelectorAll('.champion-section[data-champ-type="best"]').forEach(section => {
+                const key = section.dataset.playerKey;
+                const champs = playerChamps[key];
+                if (champs && champs.best) {
+                    const nameDiv = section.querySelector('.champion-name.best');
+                    if (nameDiv) {
+                        nameDiv.textContent = champs.best;
+                    }
+                }
+            });
+            
+            // Update comfort champion sections
+            document.querySelectorAll('.champion-section[data-champ-type="comfort"]').forEach(section => {
+                const key = section.dataset.playerKey;
+                const champs = playerChamps[key];
+                if (champs && champs.comfort && champs.comfort.length) {
+                    // Remove existing champion names (except label)
+                    const label = section.querySelector('.champion-label');
+                    section.innerHTML = '';
+                    section.appendChild(label);
+                    
+                    // Add each comfort pick
+                    champs.comfort.forEach(champName => {
+                        const div = document.createElement('div');
+                        div.className = 'champion-name';
+                        div.textContent = champName;
+                        section.appendChild(div);
+                    });
+                }
             });
         }
 
@@ -1686,7 +1712,7 @@
         }
 
         // Google Sheets web app URL — paste your deployed Apps Script Web App URL here
-        const GOOGLE_SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw_AAiY-wFBhMEJyGbSjhK8PaZrtJXqS6zDo4EUyxv1XHPNGk6jeAKmUVwE04Mvz4ynjw/exec';
+        const GOOGLE_SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwsr20yONluDH3eMCj9yr6OoWTXNjt0RYxandS_xkhIv8uhzZII_lPWdlxHOJQZMvtuzg/exec';
 
         // Fetch data from Google Sheets Apps Script web app
         async function fetchSheetData(webAppUrl) {
@@ -1794,6 +1820,11 @@
                 // Map players from spreadsheet
                 if (Array.isArray(data.players) && data.players.length) {
                     processPlayerData(data.players);
+                }
+                
+                // Map player champions from Tourney Prep
+                if (data.playerChamps && typeof data.playerChamps === 'object') {
+                    processPlayerChamps(data.playerChamps);
                 }
 
                 // Map champions
